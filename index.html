@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PropertiesWala | Trusted Property Solutions Across West Bengal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>PropertiesWala</h1>
+  <p>Trusted Property Solutions Across West Bengal</p>
+  <a class="cta" href="#latest">View Latest Listings</a>
+</header>
+
+<section id="featured">
+  <h2>Featured Properties</h2>
+
+  <div class="card">
+    <h3>Commercial Office – Salt Lake</h3>
+    <p>1200 sq ft | Main Road | ₹1.25 Cr</p>
+    <a href="https://wa.me/919830286534">Enquire on WhatsApp</a>
+  </div>
+
+</section>
+
+<section id="latest">
+  <h2>Latest Available Properties</h2>
+  <div id="listings"></div>
+</section>
+
+<footer>
+  <p>© PropertiesWala.in</p>
+</footer>
+
+<script>
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
+
+fetch(sheetURL)
+  .then(res => res.text())
+  .then(text => {
+    const rows = text.split("\n").slice(1);
+    let html = "";
+    rows.forEach(r => {
+      const c = r.split(",");
+      if(c.length > 5){
+        html += `<div class="card">
+          <h3>${c[2]} – ${c[3]}</h3>
+          <p>${c[4]} sq ft | ₹${c[5]}</p>
+          <p>${c[6]}</p>
+          <a href="https://wa.me/${c[7]}">WhatsApp</a>
+        </div>`;
+      }
+    });
+    document.getElementById("listings").innerHTML = html;
+  });
+</script>
+
+</body>
+</html>
