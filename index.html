@@ -1,60 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>PropertiesWala | Trusted Property Solutions Across West Bengal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Buy, sell and invest in residential and commercial properties across West Bengal with PropertiesWala." />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<header>
-  <h1>PropertiesWala</h1>
-  <p>Trusted Property Solutions Across West Bengal</p>
-  <a class="cta" href="#latest">View Latest Listings</a>
+<!-- HEADER -->
+<header class="top-header">
+  <div class="container header-flex">
+    <div class="logo">
+      <span class="logo-main">Properties</span><span class="logo-accent">Wala</span>
+    </div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#listings">Properties</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
 </header>
 
-<section id="featured">
-  <h2>Featured Properties</h2>
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <h1>Trusted Property Solutions Across West Bengal</h1>
+    <p>Residential & Commercial Properties • Honest Advice • Verified Listings</p>
 
-  <div class="card">
-    <h3>Commercial Office – Salt Lake</h3>
-    <p>1200 sq ft | Main Road | ₹1.25 Cr</p>
-    <a href="https://wa.me/919830286534">Enquire on WhatsApp</a>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search by location or property type" />
+    </div>
+
+    <div class="filter-buttons">
+      <button onclick="filterCategory('All')">All</button>
+      <button onclick="filterCategory('Residential')">Residential</button>
+      <button onclick="filterCategory('Commercial')">Commercial</button>
+    </div>
   </div>
-
 </section>
 
-<section id="latest">
-  <h2>Latest Available Properties</h2>
-  <div id="listings"></div>
+<!-- LISTINGS -->
+<section id="listings" class="section">
+  <div class="container">
+    <h2>Latest Available Properties</h2>
+    <div id="propertyGrid" class="grid"></div>
+  </div>
 </section>
 
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="container">
+    <h2>Need Property Details?</h2>
+    <p>Get verified listings and honest guidance.</p>
+    <a class="cta" href="https://wa.me/919830286534">Contact on WhatsApp</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  <p>© PropertiesWala.in</p>
+  <p>© PropertiesWala.in | Trusted Property Solutions Across West Bengal</p>
 </footer>
 
 <script>
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
 
+let allProperties = [];
+
 fetch(sheetURL)
   .then(res => res.text())
   .then(text => {
     const rows = text.split("\n").slice(1);
-    let html = "";
     rows.forEach(r => {
       const c = r.split(",");
-      if(c.length > 5){
-        html += `<div class="card">
-          <h3>${c[2]} – ${c[3]}</h3>
-          <p>${c[4]} sq ft | ₹${c[5]}</p>
-          <p>${c[6]}</p>
-          <a href="https://wa.me/${c[7]}">WhatsApp</a>
-        </div>`;
+      if (c.length > 5) {
+        allProperties.push({
+          category: c[1],
+          type: c[2],
+          location: c[3],
+          area: c[4],
+          price: c[5],
+          highlight: c[6],
+          whatsapp: c[7]
+        });
       }
     });
-    document.getElementById("listings").innerHTML = html;
+    renderProperties(allProperties);
   });
+
+function renderProperties(data) {
+  const grid = document.getElementById("propertyGrid");
+  grid.innerHTML = "";
+  data.forEach(p => {
+    grid.innerHTML += `
+      <div class="property-card">
+        <span class="tag">${p.category}</span>
+        <h3>${p.type} – ${p.location}</h3>
+        <p><strong>Area:</strong> ${p.area} sq ft</p>
+        <p><strong>Price:</strong> ₹ ${p.price}</p>
+        <p class="highlight">${p.highlight}</p>
+        <a class="whatsapp" href="https://wa.me/${p.whatsapp}">Enquire on WhatsApp</a>
+      </div>
+    `;
+  });
+}
+
+function filterCategory(cat) {
+  if (cat === "All") {
+    renderProperties(allProperties);
+  } else {
+    renderProperties(allProperties.filter(p => p.category === cat));
+  }
+}
+
+document.getElementById("searchInput").addEventListener("keyup", function () {
+  const value = this.value.toLowerCase();
+  renderProperties(allProperties.filter(p =>
+    p.location.toLowerCase().includes(value) ||
+    p.type.toLowerCase().includes(value)
+  ));
+});
 </script>
 
 </body>
