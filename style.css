@@ -1,14 +1,28 @@
+/* RESET */
+* {
+  box-sizing: border-box;
+}
+
+/* BODY */
 body {
   margin: 0;
   font-family: "Poppins", Arial, sans-serif;
   background: #f5f7fa;
   color: #333;
+  line-height: 1.6;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 20px;
 }
 
 /* HEADER */
 .top-header {
   background: #1f3a5f;
-  padding: 15px 0;
+  padding: 16px 0;
 }
 
 .header-flex {
@@ -19,66 +33,75 @@ body {
 
 .logo-main {
   color: #ffffff;
-  font-weight: 600;
   font-size: 22px;
+  font-weight: 600;
 }
 
 .logo-accent {
   color: #c89b3c;
-  font-weight: 700;
   font-size: 22px;
+  font-weight: 700;
 }
 
 nav a {
   color: #ffffff;
-  margin-left: 20px;
   text-decoration: none;
+  margin-left: 20px;
   font-weight: 500;
+}
+
+nav a:hover {
+  text-decoration: underline;
 }
 
 /* HERO */
 .hero {
   background: linear-gradient(135deg, #1f3a5f, #162c46);
   color: #ffffff;
-  padding: 60px 20px;
   text-align: center;
+  padding: 70px 20px;
 }
 
 .hero h1 {
   margin-bottom: 10px;
 }
 
+.hero p {
+  opacity: 0.9;
+}
+
+/* SEARCH */
 .search-box input {
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   padding: 12px;
   border-radius: 6px;
   border: none;
   margin-top: 20px;
 }
 
+/* FILTERS */
 .filter-buttons {
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
 .filter-buttons button {
   background: #c89b3c;
-  border: none;
   color: #ffffff;
-  padding: 8px 14px;
+  border: none;
+  padding: 8px 16px;
   margin: 5px;
   border-radius: 4px;
   cursor: pointer;
 }
 
-/* SECTIONS */
-.section {
-  padding: 50px 20px;
+.filter-buttons button:hover {
+  opacity: 0.9;
 }
 
-.container {
-  max-width: 1100px;
-  margin: auto;
+/* SECTIONS */
+.section {
+  padding: 50px 0;
 }
 
 /* GRID */
@@ -91,21 +114,21 @@ nav a {
 /* PROPERTY CARD */
 .property-card {
   background: #ffffff;
-  padding: 20px;
+  padding: 22px;
   border-radius: 8px;
   border-top: 4px solid #c89b3c;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
 }
 
 .property-card h3 {
-  margin: 10px 0;
+  margin-top: 10px;
 }
 
 .tag {
   background: #1f3a5f;
   color: #ffffff;
-  padding: 4px 10px;
   font-size: 12px;
+  padding: 4px 10px;
   border-radius: 4px;
 }
 
@@ -114,29 +137,32 @@ nav a {
   margin: 10px 0;
 }
 
+/* WHATSAPP BUTTON */
 .whatsapp {
   display: inline-block;
-  margin-top: 10px;
   background: #1f3a5f;
   color: #ffffff;
-  padding: 10px 14px;
-  border-radius: 5px;
+  padding: 10px 16px;
   text-decoration: none;
+  border-radius: 5px;
+  margin-top: 10px;
 }
 
 /* CONTACT */
 .contact {
   background: #ffffff;
   text-align: center;
-  padding: 50px 20px;
+  padding: 60px 20px;
 }
 
 .cta {
   background: #c89b3c;
   color: #ffffff;
-  padding: 12px 20px;
+  padding: 12px 24px;
   text-decoration: none;
-  border-radius: 5px;
+  border-radius: 6px;
+  display: inline-block;
+  margin-top: 15px;
 }
 
 /* FOOTER */
@@ -144,5 +170,16 @@ footer {
   background: #1f3a5f;
   color: #ffffff;
   text-align: center;
-  padding: 15px;
+  padding: 16px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .header-flex {
+    flex-direction: column;
+  }
+
+  nav {
+    margin-top: 10px;
+  }
 }
