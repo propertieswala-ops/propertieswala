@@ -1,196 +1,144 @@
-/* RESET */
+/* =========================
+   GLOBAL RESET
+========================= */
 * {
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
 }
 
-/* BODY */
 body {
-  margin: 0;
-  font-family: "Poppins", Arial, sans-serif;
-  background: #f5f7fa;
-  color: #333;
-  line-height: 1.6;
+    background-color: #f4f6f8;
+    color: #222;
 }
 
-/* CONTAINER */
-.container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 0 20px;
+/* =========================
+   HEADER / NAVBAR
+========================= */
+header {
+    background: #1f3a5f;
+    padding: 15px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-/* HEADER */
-.top-header {
-  background: #1f3a5f;
-  padding: 16px 0;
+header .logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ffffff;
 }
 
-.header-flex {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo-main {
-  color: #ffffff;
-  font-size: 22px;
-  font-weight: 600;
-}
-
-.logo-accent {
-  color: #c89b3c;
-  font-size: 22px;
-  font-weight: 700;
+header .logo span {
+    color: #f0b429;
 }
 
 nav a {
-  color: #ffffff;
-  text-decoration: none;
-  margin-left: 20px;
-  font-weight: 500;
+    color: #ffffff;
+    margin-left: 25px;
+    text-decoration: none;
+    font-weight: 500;
 }
 
 nav a:hover {
-  text-decoration: underline;
+    color: #f0b429;
 }
 
-/* HERO */
+/* =========================
+   HERO SECTION
+========================= */
 .hero {
-  background: linear-gradient(135deg, #1f3a5f, #162c46);
-  color: #ffffff;
-  text-align: center;
-  padding: 70px 20px;
+    min-height: 85vh;
+    background-image:
+        linear-gradient(
+            rgba(20, 40, 70, 0.75),
+            rgba(20, 40, 70, 0.85)
+        ),
+        url("./images/hero-dreamy-commercial-kolkata.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.hero-content {
+    max-width: 900px;
 }
 
 .hero h1 {
-  margin-bottom: 10px;
+    color: #ffffff;
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 15px;
 }
 
 .hero p {
-  opacity: 0.9;
+    color: #eaeaea;
+    font-size: 18px;
+    margin-bottom: 30px;
 }
 
-/* SEARCH */
-.search-box input {
-  width: 100%;
-  max-width: 420px;
-  padding: 12px;
-  border-radius: 6px;
-  border: none;
-  margin-top: 20px;
+/* =========================
+   SEARCH BAR
+========================= */
+.hero input {
+    width: 100%;
+    max-width: 480px;
+    padding: 14px 18px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    margin-bottom: 20px;
 }
 
-/* FILTERS */
-.filter-buttons {
-  margin-top: 20px;
+/* =========================
+   FILTER BUTTONS
+========================= */
+.filters {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
 }
 
-.filter-buttons button {
-  background: #c89b3c;
-  color: #ffffff;
-  border: none;
-  padding: 8px 16px;
-  margin: 5px;
-  border-radius: 4px;
-  cursor: pointer;
+.filters button {
+    padding: 10px 22px;
+    background: #f0b429;
+    color: #1f3a5f;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
 }
 
-.filter-buttons button:hover {
-  opacity: 0.9;
+.filters button:hover {
+    background: #d89f1f;
 }
 
-/* SECTIONS */
-.section {
-  padding: 50px 0;
-}
-
-/* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-/* PROPERTY CARD */
-.property-card {
-  background: #ffffff;
-  padding: 22px;
-  border-radius: 8px;
-  border-top: 4px solid #c89b3c;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-}
-
-.property-card h3 {
-  margin-top: 10px;
-}
-
-.tag {
-  background: #1f3a5f;
-  color: #ffffff;
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 4px;
-}
-
-.highlight {
-  color: #555;
-  margin: 10px 0;
-}
-
-/* WHATSAPP BUTTON */
-.whatsapp {
-  display: inline-block;
-  background: #1f3a5f;
-  color: #ffffff;
-  padding: 10px 16px;
-  text-decoration: none;
-  border-radius: 5px;
-  margin-top: 10px;
-}
-
-/* CONTACT */
-.contact {
-  background: #ffffff;
-  text-align: center;
-  padding: 60px 20px;
-}
-
-.cta {
-  background: #c89b3c;
-  color: #ffffff;
-  padding: 12px 24px;
-  text-decoration: none;
-  border-radius: 6px;
-  display: inline-block;
-  margin-top: 15px;
-}
-
-/* FOOTER */
-footer {
-  background: #1f3a5f;
-  color: #ffffff;
-  text-align: center;
-  padding: 16px;
-}
-
-/* MOBILE */
+/* =========================
+   RESPONSIVE
+========================= */
 @media (max-width: 768px) {
-  .header-flex {
-    flex-direction: column;
-  }
+    header {
+        flex-direction: column;
+        gap: 10px;
+    }
 
-  nav {
-    margin-top: 10px;
-  }
-}
-.hero {
-  min-height: 90vh;
-  background:
-    linear-gradient(rgba(15, 32, 55, 0.65), rgba(15, 32, 55, 0.65)),
-    url("images/hero-dreamy-commercial-kolkata.jpg") center/cover no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #ffffff;
+    nav a {
+        margin: 0 10px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
 }
