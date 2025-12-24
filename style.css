@@ -1,61 +1,55 @@
-/* =========================
-   GLOBAL RESET
-========================= */
+/* ===== GLOBAL RESET ===== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Segoe UI", Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-    background-color: #f4f6f8;
-    color: #222;
+    background-color: #f5f7fa;
 }
 
-/* =========================
-   HEADER / NAVBAR
-========================= */
+/* ===== HEADER ===== */
 header {
-    background: #1f3a5f;
+    background-color: #1f3a5f;
+    color: #ffffff;
     padding: 15px 40px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
 }
 
-header .logo {
+.logo {
     font-size: 22px;
     font-weight: bold;
-    color: #ffffff;
 }
 
-header .logo span {
-    color: #f0b429;
+.logo span {
+    color: #d4a437;
 }
 
 nav a {
     color: #ffffff;
-    margin-left: 25px;
     text-decoration: none;
-    font-weight: 500;
+    margin-left: 25px;
+    font-size: 15px;
 }
 
 nav a:hover {
-    color: #f0b429;
+    color: #d4a437;
 }
 
-/* =========================
-   HERO SECTION
-========================= */
+/* ===== HERO SECTION ===== */
 .hero {
     min-height: 85vh;
     background-image:
         linear-gradient(
-            rgba(20, 40, 70, 0.75),
-            rgba(20, 40, 70, 0.85)
+            rgba(25, 42, 70, 0.85),
+            rgba(25, 42, 70, 0.90)
         ),
-        url("./images/hero-dreamy-commercial-kolkata.jpg");
+        url("./image/hero-drehero-dreamy-commercial-kolkata.jpg");
+
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -64,7 +58,9 @@ nav a:hover {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 40px 20px;
+
+    color: #ffffff;
+    padding: 60px 20px;
 }
 
 .hero-content {
@@ -72,58 +68,46 @@ nav a:hover {
 }
 
 .hero h1 {
-    color: #ffffff;
-    font-size: 48px;
-    font-weight: 700;
+    font-size: 46px;
     margin-bottom: 15px;
+    font-weight: 700;
 }
 
 .hero p {
-    color: #eaeaea;
     font-size: 18px;
     margin-bottom: 30px;
+    opacity: 0.95;
 }
 
-/* =========================
-   SEARCH BAR
-========================= */
+/* ===== SEARCH BAR ===== */
 .hero input {
     width: 100%;
-    max-width: 480px;
+    max-width: 520px;
     padding: 14px 18px;
     border-radius: 6px;
     border: none;
     outline: none;
     font-size: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
-/* =========================
-   FILTER BUTTONS
-========================= */
-.filters {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-}
-
+/* ===== FILTER BUTTONS ===== */
 .filters button {
     padding: 10px 22px;
-    background: #f0b429;
-    color: #1f3a5f;
+    margin: 0 6px;
     border: none;
-    border-radius: 6px;
-    font-weight: 600;
+    border-radius: 4px;
+    background-color: #d4a437;
+    color: #ffffff;
+    font-size: 14px;
     cursor: pointer;
 }
 
 .filters button:hover {
-    background: #d89f1f;
+    background-color: #b8922e;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
     header {
         flex-direction: column;
@@ -135,7 +119,7 @@ nav a:hover {
     }
 
     .hero h1 {
-        font-size: 32px;
+        font-size: 30px;
     }
 
     .hero p {
