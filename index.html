@@ -4,12 +4,15 @@
 <meta charset="UTF-8">
 <title>PropertiesWala | Trusted Property Solutions</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link rel="stylesheet" href="style.css">
+
+<!-- PapaParse CSV Parser -->
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
 <header class="navbar">
   <div class="logo">Properties<span>Wala</span></div>
   <nav>
@@ -19,7 +22,6 @@
   </nav>
 </header>
 
-<!-- ================= HERO ================= -->
 <section class="hero">
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -36,7 +38,6 @@
   </div>
 </section>
 
-<!-- ================= PROPERTIES ================= -->
 <section id="properties">
   <h2>Latest Available Properties</h2>
   <div id="property-list" class="property-grid"></div>
@@ -46,38 +47,21 @@
   © 2025 PropertiesWala. All rights reserved.
 </footer>
 
-<!-- ================= SCRIPT ================= -->
 <script>
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
 
 let allProperties = [];
 
-// Load CSV
-fetch(CSV_URL)
-  .then(res => res.text())
-  .then(csv => {
-    const lines = csv.trim().split("\n");
-    lines.shift(); // remove header
-
-    allProperties = lines.map(line => {
-      const cols = line.split(",");
-
-      return {
-        id: cols[0]?.trim(),
-        category: cols[1]?.trim(),
-        type: cols[2]?.trim(),
-        location: cols[3]?.trim(),
-        area: cols[4]?.trim(),
-        price: cols[5]?.trim(),
-        image: cols[6]?.trim(),       // FULL IMAGE URL
-        whatsapp: cols[7]?.trim()     // NUMBER ONLY
-      };
-    });
-
+Papa.parse(CSV_URL, {
+  download: true,
+  header: true,
+  skipEmptyLines: true,
+  complete: function(results) {
+    allProperties = results.data;
     renderProperties(allProperties);
-  });
+  }
+});
 
-// Render Cards
 function renderProperties(list) {
   const container = document.getElementById("property-list");
   container.innerHTML = "";
@@ -85,14 +69,14 @@ function renderProperties(list) {
   list.forEach(p => {
     container.innerHTML += `
       <div class="card">
-        <img src="${p.image}" alt="${p.type}">
+        <img src="${p.Image}" alt="${p.Type}">
         <div class="card-body">
-          <h3>${p.type}</h3>
-          <p><b>Location:</b> ${p.location}</p>
-          <p><b>Area:</b> ${p.area} sqft</p>
-          <p><b>Price:</b> ${p.price}</p>
+          <h3>${p.Type}</h3>
+          <p><b>Location:</b> ${p.Location}</p>
+          <p><b>Area:</b> ${p.Area} sqft</p>
+          <p><b>Price:</b> ${p.Price}</p>
           <a class="whatsapp" 
-             href="https://wa.me/91${p.whatsapp}" 
+             href="https://wa.me/91${p.WhatsApp}" 
              target="_blank">
              WhatsApp Enquiry
           </a>
@@ -102,13 +86,12 @@ function renderProperties(list) {
   });
 }
 
-// Filter Category
 function filterCategory(category) {
   if (category === "All") {
     renderProperties(allProperties);
   } else {
     renderProperties(
-      allProperties.filter(p => p.category === category)
+      allProperties.filter(p => p.Category === category)
     );
   }
 }
