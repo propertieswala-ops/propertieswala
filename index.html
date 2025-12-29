@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
+<!-- HEADER -->
 <header class="navbar">
   <div class="logo">Properties<span>Wala</span></div>
   <nav>
@@ -18,13 +18,13 @@
   </nav>
 </header>
 
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
+  <div class="hero-overlay">
     <h1>Trusted Property Solutions Across West Bengal</h1>
     <p>Residential & Commercial Properties • Honest Advice • Verified Listings</p>
 
-    <input id="search" type="text" placeholder="Search by location or property type">
+    <input type="text" id="searchInput" placeholder="Search by location or property type">
 
     <div class="filters">
       <button onclick="filterCategory('All')">All</button>
@@ -34,43 +34,53 @@
   </div>
 </section>
 
+<!-- PROPERTY LIST -->
 <section id="properties">
   <h2>Latest Available Properties</h2>
   <div id="property-list" class="property-grid"></div>
 </section>
 
+<!-- FOOTER -->
+<footer id="contact">
+  <p>© 2025 PropertiesWala. All rights reserved.</p>
+</footer>
+
+<!-- SCRIPT -->
 <script>
 const sheetURL = "PASTE_YOUR_CSV_LINK_HERE";
 
-let properties = [];
+let allProperties = [];
 
 fetch(sheetURL)
   .then(res => res.text())
-  .then(data => {
-    const rows = data.split("\n").slice(1);
+  .then(csv => {
+    const rows = csv.trim().split("\n").slice(1);
     rows.forEach(row => {
       const cols = row.split(",");
-      if (cols.length > 7) {
-        properties.push({
-          id: cols[0],
-          category: cols[1],
-          type: cols[2],
-          location: cols[3],
-          area: cols[4],
-          price: cols[5],
-          image: cols[6],
-          whatsapp: cols[7]
-        });
-      }
-    });
-    render(properties);
-  });
+      if (cols.length < 8) return;
 
-function render(list) {
-  const box = document.getElementById("property-list");
-  box.innerHTML = "";
+      allProperties.push({
+        id: cols[0],
+        category: cols[1],
+        type: cols[2],
+        location: cols[3],
+        area: cols[4],
+        price: cols[5],
+        image: cols[6].trim(),
+        whatsapp: cols[7].trim()
+      });
+    });
+
+    renderProperties(allProperties);
+  })
+  .catch(err => console.error("CSV Load Error:", err));
+
+function renderProperties(list) {
+  const container = document.getElementById("property-list");
+  container.innerHTML = "";
+
   list.forEach(p => {
-    box.innerHTML += `
+    container.innerHTML += `
       <div class="card">
         <img src="${p.image}" alt="${p.location}">
         <div class="card-body">
@@ -78,7 +88,7 @@ function render(list) {
           <p>${p.location}</p>
           <p><strong>Area:</strong> ${p.area} sqft</p>
           <p><strong>Price:</strong> ${p.price}</p>
-          <a class="whatsapp" href="https://wa.me/${p.whatsapp}" target="_blank">
+          <a href="https://wa.me/${p.whatsapp}" target="_blank" class="whatsapp">
             WhatsApp Enquiry
           </a>
         </div>
@@ -88,16 +98,21 @@ function render(list) {
 }
 
 function filterCategory(cat) {
-  if (cat === "All") render(properties);
-  else render(properties.filter(p => p.category === cat));
+  if (cat === "All") {
+    renderProperties(allProperties);
+  } else {
+    renderProperties(allProperties.filter(p => p.category === cat));
+  }
 }
 
-document.getElementById("search").addEventListener("input", e => {
-  const v = e.target.value.toLowerCase();
-  render(properties.filter(p =>
-    p.location.toLowerCase().includes(v) ||
-    p.type.toLowerCase().includes(v)
-  ));
+document.getElementById("searchInput").addEventListener("keyup", e => {
+  const val = e.target.value.toLowerCase();
+  renderProperties(
+    allProperties.filter(p =>
+      p.location.toLowerCase().includes(val) ||
+      p.type.toLowerCase().includes(val)
+    )
+  );
 });
 </script>
 
