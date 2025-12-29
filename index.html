@@ -7,127 +7,112 @@
 
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-  <!-- NAVBAR -->
-  <header class="navbar">
-    <div class="logo">Properties<span>Wala</span></div>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#properties">Properties</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+  <div class="logo">Properties<span>Wala</span></div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#properties">Properties</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
 
-  <!-- HERO SECTION -->
-  <section id="home" class="hero">
+<!-- ================= HERO ================= -->
+<section id="home" class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
     <h1>Trusted Property Solutions Across West Bengal</h1>
     <p>Residential & Commercial Properties • Honest Advice • Verified Listings</p>
 
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="Search by location or property type"
-    />
+    <input type="text" id="searchInput" placeholder="Search by location or property type" />
 
-    <div class="filters">
+    <div class="filter-buttons">
       <button onclick="filterCategory('All')">All</button>
       <button onclick="filterCategory('Residential')">Residential</button>
       <button onclick="filterCategory('Commercial')">Commercial</button>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- PROPERTY LISTING -->
-  <section id="properties" class="properties-section">
-    <h2>Latest Available Properties</h2>
-    <div id="propertyGrid" class="property-grid"></div>
-  </section>
+<!-- ================= PROPERTIES ================= -->
+<section id="properties" class="properties-section">
+  <h2>Latest Available Properties</h2>
+  <div id="propertyList" class="property-grid"></div>
+</section>
 
-  <!-- CONTACT SECTION (NEW – ADDED ONLY) -->
-  <section id="contact" class="contact-section">
-    <h2>Contact Us</h2>
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="contact-section">
+  <h2>Contact Us</h2>
+  <p>Speak directly with a property expert for verified listings and honest advice.</p>
 
-    <p class="contact-text">
-      Speak directly with a property expert for verified listings and honest advice.
-    </p>
+  <a class="call-btn" href="tel:+919433365152">📞 Call Now: +91 94333 65152</a>
+</section>
 
-    <div class="contact-box">
-      <p class="contact-label">Call Now</p>
+<footer class="footer">
+  © 2025 PropertiesWala. All rights reserved.
+</footer>
 
-      <a href="tel:+919433365152" class="call-button">
-        +91 94333 65152
-      </a>
+<!-- ================= SCRIPT ================= -->
+<script>
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
 
-      <p class="contact-note">
-        Available for Residential & Commercial Property Enquiries
-      </p>
-    </div>
-  </section>
+let allProperties = [];
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    © 2025 PropertiesWala. All rights reserved.
-  </footer>
-
-  <!-- SCRIPT -->
-  <script>
-    const CSV_URL =
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
-
-    let allProperties = [];
-
-    fetch(CSV_URL)
-      .then((res) => res.text())
-      .then((text) => {
-        const rows = text.split("\n").slice(1);
-        allProperties = rows.map((row) => row.split(","));
-        renderProperties(allProperties);
-      });
-
-    function renderProperties(data) {
-      const grid = document.getElementById("propertyGrid");
-      grid.innerHTML = "";
-
-      data.forEach((p) => {
-        if (p.length < 8) return;
-
-        const card = document.createElement("div");
-        card.className = "property-card";
-
-        card.innerHTML = `
-          <img src="${p[6].trim()}" alt="${p[2]}" />
-          <h3>${p[2]}</h3>
-          <p><strong>Location:</strong> ${p[3]}</p>
-          <p><strong>Area:</strong> ${p[4]} sqft</p>
-          <p><strong>Price:</strong> ${p[5]}</p>
-          <a class="whatsapp-btn" href="https://wa.me/91${p[7].trim()}" target="_blank">
-            WhatsApp Enquiry
-          </a>
-        `;
-
-        grid.appendChild(card);
-      });
-    }
-
-    function filterCategory(category) {
-      if (category === "All") {
-        renderProperties(allProperties);
-      } else {
-        renderProperties(allProperties.filter((p) => p[1] === category));
-      }
-    }
-
-    document.getElementById("searchInput").addEventListener("input", function () {
-      const value = this.value.toLowerCase();
-      renderProperties(
-        allProperties.filter(
-          (p) =>
-            p[2].toLowerCase().includes(value) ||
-            p[3].toLowerCase().includes(value)
-        )
-      );
+fetch(CSV_URL)
+  .then(res => res.text())
+  .then(text => {
+    const rows = text.trim().split("\n").slice(1);
+    allProperties = rows.map(r => {
+      const c = r.split(",");
+      return {
+        id: c[0],
+        category: c[1],
+        type: c[2],
+        location: c[3],
+        area: c[4],
+        price: c[5],
+        image: c[6],
+        phone: c[7]
+      };
     });
-  </script>
+    renderProperties(allProperties);
+  });
+
+function renderProperties(data) {
+  const list = document.getElementById("propertyList");
+  list.innerHTML = "";
+
+  data.forEach(p => {
+    list.innerHTML += `
+      <div class="property-card">
+        <img src="${p.image}" alt="${p.type}">
+        <div class="card-body">
+          <h3>${p.type}</h3>
+          <p><strong>Location:</strong> ${p.location}</p>
+          <p><strong>Area:</strong> ${p.area} sqft</p>
+          <p><strong>Price:</strong> ${p.price}</p>
+          <a class="whatsapp-btn"
+             href="https://wa.me/91${p.phone}?text=I am interested in ${p.type} at ${p.location}"
+             target="_blank">
+             WhatsApp Enquiry
+          </a>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function filterCategory(cat) {
+  if (cat === "All") {
+    renderProperties(allProperties);
+  } else {
+    renderProperties(allProperties.filter(p => p.category === cat));
+  }
+}
+</script>
 
 </body>
 </html>
