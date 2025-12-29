@@ -1,243 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>PropertiesWala | Trusted Property Solutions Across West Bengal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Residential & Commercial Properties across West Bengal. Verified listings with honest advice." />
-
-  <link rel="stylesheet" href="style.css" />
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f7fa;
-      color: #222;
-    }
-
-    /* HEADER */
-    header {
-      background: #1e3557;
-      color: #fff;
-      padding: 15px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    header .logo {
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    header .logo span {
-      color: #f4c24d;
-    }
-
-    header nav a {
-      color: #fff;
-      margin-left: 20px;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    /* HERO */
-    .hero {
-      position: relative;
-      height: 80vh;
-      background:
-        linear-gradient(rgba(15,30,60,0.75), rgba(15,30,60,0.75)),
-        url("image/hero-drehero-dreamy-commercial-kolkata.jpg") center / cover no-repeat;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #fff;
-    }
-
-    .hero h1 {
-      font-size: 44px;
-      margin-bottom: 15px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      margin-bottom: 25px;
-    }
-
-    .hero input {
-      width: 360px;
-      padding: 14px;
-      border-radius: 6px;
-      border: none;
-      font-size: 15px;
-    }
-
-    /* SECTION */
-    section {
-      padding: 60px 40px;
-    }
-
-    section h2 {
-      text-align: center;
-      font-size: 30px;
-      margin-bottom: 40px;
-      color: #1e3557;
-    }
-
-    /* PROPERTY GRID */
-    .properties {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      transition: transform 0.3s;
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-    }
-
-    .card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .card-body {
-      padding: 18px;
-    }
-
-    .badge {
-      font-size: 12px;
-      color: #f4c24d;
-      font-weight: bold;
-      margin-bottom: 6px;
-      display: inline-block;
-    }
-
-    .card-body h3 {
-      margin: 6px 0;
-      font-size: 18px;
-      color: #1e3557;
-    }
-
-    .card-body p {
-      font-size: 14px;
-      margin: 4px 0;
-      color: #555;
-    }
-
-    .price {
-      font-weight: bold;
-      margin-top: 10px;
-      font-size: 16px;
-    }
-
-    .whatsapp {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 10px 14px;
-      background: #25d366;
-      color: #fff;
-      border-radius: 6px;
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    footer {
-      background: #1e3557;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      margin-top: 60px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>PropertiesWala | Trusted Property Solutions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header>
+<header class="navbar">
   <div class="logo">Properties<span>Wala</span></div>
   <nav>
     <a href="#">Home</a>
-    <a href="#">Properties</a>
-    <a href="#">Contact</a>
+    <a href="#properties">Properties</a>
+    <a href="#contact">Contact</a>
   </nav>
 </header>
 
-<!-- HERO -->
-<div class="hero">
-  <div>
+<section class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
     <h1>Trusted Property Solutions Across West Bengal</h1>
     <p>Residential & Commercial Properties • Honest Advice • Verified Listings</p>
-    <input type="text" placeholder="Search by location or property type" />
-  </div>
-</div>
 
-<!-- PROPERTIES -->
-<section>
-  <h2>Latest Available Properties</h2>
-  <div class="properties" id="property-list">
-    <!-- Properties load here -->
+    <input id="search" type="text" placeholder="Search by location or property type">
+
+    <div class="filters">
+      <button onclick="filterCategory('All')">All</button>
+      <button onclick="filterCategory('Residential')">Residential</button>
+      <button onclick="filterCategory('Commercial')">Commercial</button>
+    </div>
   </div>
 </section>
 
-<footer>
-  © 2025 PropertiesWala.in — All Rights Reserved
-</footer>
+<section id="properties">
+  <h2>Latest Available Properties</h2>
+  <div id="property-list" class="property-grid"></div>
+</section>
 
 <script>
-const sheetURL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
+const sheetURL = "PASTE_YOUR_CSV_LINK_HERE";
+
+let properties = [];
 
 fetch(sheetURL)
   .then(res => res.text())
-  .then(csv => {
-    const rows = csv.split("\\n").slice(1);
-    const container = document.getElementById("property-list");
-
+  .then(data => {
+    const rows = data.split("\n").slice(1);
     rows.forEach(row => {
-      if (!row.trim()) return;
-
       const cols = row.split(",");
+      if (cols.length > 7) {
+        properties.push({
+          id: cols[0],
+          category: cols[1],
+          type: cols[2],
+          location: cols[3],
+          area: cols[4],
+          price: cols[5],
+          image: cols[6],
+          whatsapp: cols[7]
+        });
+      }
+    });
+    render(properties);
+  });
 
-      const category = cols[1];
-      const type = cols[2];
-      const location = cols[3];
-      const area = cols[4];
-      const price = cols[5];
-      const image = cols[6];
-      const whatsapp = cols[7];
-
-      const card = document.createElement("div");
-      card.className = "card";
-
-      card.innerHTML = `
-        <img src="${image}" alt="${location}">
+function render(list) {
+  const box = document.getElementById("property-list");
+  box.innerHTML = "";
+  list.forEach(p => {
+    box.innerHTML += `
+      <div class="card">
+        <img src="${p.image}" alt="${p.location}">
         <div class="card-body">
-          <span class="badge">${category}</span>
-          <h3>${location}</h3>
-          <p>${type} • ${area} sq ft</p>
-          <p class="price">₹ ${price}</p>
-          <a class="whatsapp" target="_blank"
-             href="https://wa.me/91${whatsapp}?text=I am interested in property at ${location}">
-             WhatsApp Enquiry
+          <h3>${p.type}</h3>
+          <p>${p.location}</p>
+          <p><strong>Area:</strong> ${p.area} sqft</p>
+          <p><strong>Price:</strong> ${p.price}</p>
+          <a class="whatsapp" href="https://wa.me/${p.whatsapp}" target="_blank">
+            WhatsApp Enquiry
           </a>
         </div>
-      `;
+      </div>
+    `;
+  });
+}
 
-      container.appendChild(card);
-    });
-  })
-  .catch(err => console.error("CSV Load Error:", err));
+function filterCategory(cat) {
+  if (cat === "All") render(properties);
+  else render(properties.filter(p => p.category === cat));
+}
+
+document.getElementById("search").addEventListener("input", e => {
+  const v = e.target.value.toLowerCase();
+  render(properties.filter(p =>
+    p.location.toLowerCase().includes(v) ||
+    p.type.toLowerCase().includes(v)
+  ));
+});
 </script>
 
 </body>
