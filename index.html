@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>PropertiesWala | Trusted Property Solutions</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
+<!-- NAVBAR -->
 <header class="navbar">
   <div class="logo">Properties<span>Wala</span></div>
   <nav>
@@ -17,12 +19,14 @@
   </nav>
 </header>
 
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-overlay">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
     <h1>Trusted Property Solutions Across West Bengal</h1>
     <p>Residential & Commercial Properties • Honest Advice • Verified Listings</p>
 
-    <input type="text" id="searchInput" placeholder="Search by location or property type">
+    <input type="text" id="searchBox" placeholder="Search by location or property type">
 
     <div class="filters">
       <button onclick="filterCategory('All')">All</button>
@@ -32,88 +36,82 @@
   </div>
 </section>
 
-<section id="properties">
+<!-- PROPERTY LIST -->
+<section id="properties" class="property-section">
   <h2>Latest Available Properties</h2>
-  <div id="property-list" class="property-grid"></div>
+  <div id="propertyGrid" class="property-grid"></div>
 </section>
 
-<footer id="contact">
-  <p>© 2025 PropertiesWala. All rights reserved.</p>
+<footer>
+  © 2025 PropertiesWala. All rights reserved.
 </footer>
 
 <script>
-const csvURL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
 
-let properties = [];
+let allProperties = [];
+let activeCategory = "All";
 
-fetch(csvURL)
+fetch(CSV_URL)
   .then(res => res.text())
-  .then(text => {
-    const rows = text.split("\n").slice(1);
-
+  .then(csv => {
+    const rows = csv.split("\n").slice(1);
     rows.forEach(row => {
       const cols = row.split(",");
-
       if (cols.length < 8) return;
 
-      properties.push({
-        id: cols[0]?.trim(),
-        category: cols[1]?.trim(),
-        type: cols[2]?.trim(),
-        location: cols[3]?.trim(),
-        area: cols[4]?.trim(),
-        price: cols[5]?.trim(),
-        image: cols[6]?.trim(),
-        whatsapp: cols[7]?.trim()
+      allProperties.push({
+        id: cols[0],
+        category: cols[1],
+        type: cols[2],
+        location: cols[3],
+        area: cols[4],
+        price: cols[5],
+        image: cols[6],
+        whatsapp: cols[7]
       });
     });
-
-    render(properties);
-  })
-  .catch(err => console.error("CSV Error:", err));
-
-function render(list) {
-  const box = document.getElementById("property-list");
-  box.innerHTML = "";
-
-  list.forEach(p => {
-    box.innerHTML += `
-      <div class="card">
-        <img src="${p.image}" alt="${p.location}">
-        <div class="card-body">
-          <h3>${p.type}</h3>
-          <p>${p.location}</p>
-          <p><strong>Area:</strong> ${p.area} sqft</p>
-          <p><strong>Price:</strong> ${p.price}</p>
-          <a class="whatsapp"
-             href="https://wa.me/${p.whatsapp}"
-             target="_blank">
-             WhatsApp Enquiry
-          </a>
-        </div>
-      </div>
-    `;
+    renderProperties();
   });
+
+function renderProperties() {
+  const grid = document.getElementById("propertyGrid");
+  grid.innerHTML = "";
+
+  const search = document.getElementById("searchBox").value.toLowerCase();
+
+  allProperties
+    .filter(p =>
+      (activeCategory === "All" || p.category === activeCategory) &&
+      (p.location.toLowerCase().includes(search) ||
+       p.type.toLowerCase().includes(search))
+    )
+    .forEach(p => {
+      grid.innerHTML += `
+        <div class="property-card">
+          <img src="${p.image}" alt="${p.type}">
+          <div class="card-body">
+            <h3>${p.type}</h3>
+            <p><strong>Location:</strong> ${p.location}</p>
+            <p><strong>Area:</strong> ${p.area} sqft</p>
+            <p><strong>Price:</strong> ${p.price}</p>
+            <a class="whatsapp"
+               href="https://wa.me/91${p.whatsapp}?text=I%20am%20interested%20in%20${p.id}"
+               target="_blank">
+               WhatsApp Enquiry
+            </a>
+          </div>
+        </div>
+      `;
+    });
 }
 
 function filterCategory(cat) {
-  if (cat === "All") {
-    render(properties);
-  } else {
-    render(properties.filter(p => p.category === cat));
-  }
+  activeCategory = cat;
+  renderProperties();
 }
 
-document.getElementById("searchInput").addEventListener("input", e => {
-  const v = e.target.value.toLowerCase();
-  render(
-    properties.filter(p =>
-      p.location.toLowerCase().includes(v) ||
-      p.type.toLowerCase().includes(v)
-    )
-  );
-});
+document.getElementById("searchBox").addEventListener("input", renderProperties);
 </script>
 
 </body>
