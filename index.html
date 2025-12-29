@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="navbar">
   <div class="logo">Properties<span>Wala</span></div>
   <nav>
@@ -18,7 +17,6 @@
   </nav>
 </header>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-overlay">
     <h1>Trusted Property Solutions Across West Bengal</h1>
@@ -34,53 +32,53 @@
   </div>
 </section>
 
-<!-- PROPERTY LIST -->
 <section id="properties">
   <h2>Latest Available Properties</h2>
   <div id="property-list" class="property-grid"></div>
 </section>
 
-<!-- FOOTER -->
 <footer id="contact">
   <p>© 2025 PropertiesWala. All rights reserved.</p>
 </footer>
 
-<!-- SCRIPT -->
 <script>
-const sheetURL = "PASTE_YOUR_CSV_LINK_HERE";
+const csvURL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
 
-let allProperties = [];
+let properties = [];
 
-fetch(sheetURL)
+fetch(csvURL)
   .then(res => res.text())
-  .then(csv => {
-    const rows = csv.trim().split("\n").slice(1);
+  .then(text => {
+    const rows = text.split("\n").slice(1);
+
     rows.forEach(row => {
       const cols = row.split(",");
+
       if (cols.length < 8) return;
 
-      allProperties.push({
-        id: cols[0],
-        category: cols[1],
-        type: cols[2],
-        location: cols[3],
-        area: cols[4],
-        price: cols[5],
-        image: cols[6].trim(),
-        whatsapp: cols[7].trim()
+      properties.push({
+        id: cols[0]?.trim(),
+        category: cols[1]?.trim(),
+        type: cols[2]?.trim(),
+        location: cols[3]?.trim(),
+        area: cols[4]?.trim(),
+        price: cols[5]?.trim(),
+        image: cols[6]?.trim(),
+        whatsapp: cols[7]?.trim()
       });
     });
 
-    renderProperties(allProperties);
+    render(properties);
   })
-  .catch(err => console.error("CSV Load Error:", err));
+  .catch(err => console.error("CSV Error:", err));
 
-function renderProperties(list) {
-  const container = document.getElementById("property-list");
-  container.innerHTML = "";
+function render(list) {
+  const box = document.getElementById("property-list");
+  box.innerHTML = "";
 
   list.forEach(p => {
-    container.innerHTML += `
+    box.innerHTML += `
       <div class="card">
         <img src="${p.image}" alt="${p.location}">
         <div class="card-body">
@@ -88,8 +86,10 @@ function renderProperties(list) {
           <p>${p.location}</p>
           <p><strong>Area:</strong> ${p.area} sqft</p>
           <p><strong>Price:</strong> ${p.price}</p>
-          <a href="https://wa.me/${p.whatsapp}" target="_blank" class="whatsapp">
-            WhatsApp Enquiry
+          <a class="whatsapp"
+             href="https://wa.me/${p.whatsapp}"
+             target="_blank">
+             WhatsApp Enquiry
           </a>
         </div>
       </div>
@@ -99,18 +99,18 @@ function renderProperties(list) {
 
 function filterCategory(cat) {
   if (cat === "All") {
-    renderProperties(allProperties);
+    render(properties);
   } else {
-    renderProperties(allProperties.filter(p => p.category === cat));
+    render(properties.filter(p => p.category === cat));
   }
 }
 
-document.getElementById("searchInput").addEventListener("keyup", e => {
-  const val = e.target.value.toLowerCase();
-  renderProperties(
-    allProperties.filter(p =>
-      p.location.toLowerCase().includes(val) ||
-      p.type.toLowerCase().includes(val)
+document.getElementById("searchInput").addEventListener("input", e => {
+  const v = e.target.value.toLowerCase();
+  render(
+    properties.filter(p =>
+      p.location.toLowerCase().includes(v) ||
+      p.type.toLowerCase().includes(v)
     )
   );
 });
