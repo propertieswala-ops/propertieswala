@@ -5,10 +5,14 @@
   font-family: Arial, sans-serif;
 }
 
-/* ================= NAVBAR ================= */
+body {
+  background: #f5f6f7;
+  color: #222;
+}
+
+/* NAVBAR */
 .navbar {
-  background: #1f3a5f;
-  color: #fff;
+  background: #1f3b5c;
   padding: 15px 40px;
   display: flex;
   justify-content: space-between;
@@ -18,76 +22,63 @@
 .logo {
   font-size: 22px;
   font-weight: bold;
+  color: #fff;
 }
 
 .logo span {
-  color: #f4b400;
+  color: #f5c542;
 }
 
-.navbar nav a {
+.navbar a {
   color: #fff;
-  text-decoration: none;
   margin-left: 20px;
+  text-decoration: none;
 }
 
-/* ================= HERO ================= */
+/* HERO */
 .hero {
-  height: 90vh;
-  background: url("image/hero-drehero-dreamy-commercial-kolkata.jpg") center/cover no-repeat;
-  position: relative;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(15, 25, 45, 0.75);
+  height: 70vh;
+  background: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
+    url("image/hero-drehero-dreamy-commercial-kolkata.jpg") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .hero-content {
-  position: relative;
-  z-index: 2;
   color: #fff;
-  text-align: center;
-  padding-top: 120px;
+  max-width: 700px;
 }
 
-.hero-content h1 {
-  font-size: 42px;
-  margin-bottom: 15px;
+.hero h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
 }
 
-.hero-content p {
-  margin-bottom: 25px;
-}
-
-.hero-content input {
-  width: 320px;
+.hero input {
+  width: 100%;
   padding: 12px;
+  margin: 20px 0;
   border-radius: 6px;
   border: none;
 }
 
-.filter-buttons {
-  margin-top: 20px;
-}
-
-.filter-buttons button {
-  background: #f4b400;
+.filters button {
+  background: #f5c542;
   border: none;
   padding: 10px 18px;
   margin: 5px;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
-  font-weight: bold;
 }
 
-/* ================= PROPERTIES ================= */
-.properties-section {
+/* PROPERTIES */
+.properties {
   padding: 60px 40px;
-  background: #f5f6f8;
 }
 
-.properties-section h2 {
+.properties h2 {
   text-align: center;
   margin-bottom: 40px;
 }
@@ -100,64 +91,59 @@
 
 .property-card {
   background: #fff;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,.1);
 }
 
 .property-card img {
   width: 100%;
-  height: 180px;
+  height: 200px;
   object-fit: cover;
 }
 
 .card-body {
-  padding: 15px;
+  padding: 20px;
 }
 
 .card-body h3 {
   margin-bottom: 10px;
 }
 
-.card-body p {
-  font-size: 14px;
-  margin-bottom: 6px;
-}
-
-.whatsapp-btn {
+.whatsapp {
   display: block;
+  margin-top: 15px;
+  padding: 10px;
   background: #25d366;
   color: #fff;
   text-align: center;
-  padding: 10px;
   border-radius: 6px;
   text-decoration: none;
-  margin-top: 10px;
-  font-weight: bold;
 }
 
-/* ================= CONTACT ================= */
-.contact-section {
-  padding: 60px 20px;
+/* CONTACT */
+.contact {
+  background: #1f3b5c;
+  color: #fff;
   text-align: center;
+  padding: 50px 20px;
 }
 
 .call-btn {
   display: inline-block;
   margin-top: 15px;
-  background: #1f3a5f;
-  color: #fff;
-  padding: 14px 22px;
+  background: #f5c542;
+  color: #000;
+  padding: 12px 20px;
   border-radius: 6px;
   text-decoration: none;
   font-weight: bold;
 }
 
-/* ================= FOOTER ================= */
-.footer {
-  background: #1f3a5f;
-  color: #fff;
+/* FOOTER */
+footer {
   text-align: center;
   padding: 15px;
-  margin-top: 40px;
+  background: #111;
+  color: #fff;
 }
