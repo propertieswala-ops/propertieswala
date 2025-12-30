@@ -1,22 +1,23 @@
+/* ================= RESET ================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-  background: #f5f6f7;
+  background: #f4f6f8;
   color: #222;
 }
 
-/* NAVBAR */
+/* ================= NAVBAR ================= */
 .navbar {
-  background: #1f3b5b;
-  padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 14px 40px;
+  background: #1f3a5f;
 }
 
 .logo {
@@ -26,110 +27,157 @@ body {
 }
 
 .logo span {
-  color: #f5b400;
+  color: #f5b82e;
 }
 
 .navbar nav a {
   color: #fff;
   margin-left: 20px;
   text-decoration: none;
+  font-size: 15px;
 }
 
-/* HERO */
+/* ================= HERO ================= */
 .hero {
-  height: 60vh;
-  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-              url("image/hero-drehero-dreamy-commercial-kolkata.jpg") center/cover no-repeat;
+  height: 420px;
+  background: linear-gradient(
+      rgba(10, 20, 40, 0.65),
+      rgba(10, 20, 40, 0.65)
+    ),
+    url("image/hero-drehero-dreamy-commercial-kolkata.jpg") center / cover
+      no-repeat;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .hero-content {
-  text-align: center;
   color: #fff;
+  max-width: 700px;
 }
 
-.hero input {
-  margin-top: 15px;
+.hero-content h1 {
+  font-size: 38px;
+  margin-bottom: 10px;
+}
+
+.hero-content p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.hero-content input {
+  width: 100%;
   padding: 12px;
-  width: 300px;
   border-radius: 6px;
   border: none;
+  margin-bottom: 15px;
 }
 
-/* SECTION */
-.section {
-  padding: 60px 40px;
+.filters button {
+  background: #f5b82e;
+  border: none;
+  padding: 10px 18px;
+  margin: 5px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.section h2 {
+/* ================= PROPERTIES ================= */
+.properties {
+  padding: 50px 40px;
+}
+
+.properties h2 {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
+  font-size: 26px;
 }
 
-/* GRID */
-.grid {
+/* GRID FIX (IMPORTANT PART) */
+.property-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 25px;
 }
 
-/* CARD */
+/* ================= CARD ================= */
 .card {
   background: #fff;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
 }
 
+/* IMAGE FIX */
 .card img {
   width: 100%;
   height: 200px;
-  object-fit: cover;
+  object-fit: cover;   /* KEY FIX */
+  display: block;
 }
 
+/* CARD CONTENT */
 .card h3 {
-  padding: 15px;
+  font-size: 18px;
+  padding: 12px 15px 5px;
 }
 
 .card p {
-  padding: 0 15px 8px;
+  padding: 2px 15px;
+  font-size: 14px;
 }
 
+/* WHATSAPP BUTTON */
 .whatsapp {
-  display: block;
+  margin: 15px;
+  margin-top: auto;
   background: #25d366;
   color: #fff;
   text-align: center;
   padding: 12px;
-  margin: 15px;
-  border-radius: 6px;
+  border-radius: 8px;
   text-decoration: none;
+  font-weight: bold;
 }
 
-/* CONTACT */
+/* ================= CONTACT ================= */
 .contact {
-  background: #1f3b5b;
+  background: #fff;
+  padding: 40px;
+  text-align: center;
+}
+
+.contact h2 {
+  margin-bottom: 10px;
+}
+
+/* ================= FOOTER ================= */
+footer {
+  background: #1f3a5f;
   color: #fff;
   text-align: center;
-  padding: 50px 20px;
-}
-
-.call-btn {
-  display: inline-block;
-  margin-top: 15px;
-  padding: 12px 20px;
-  background: #f5b400;
-  color: #000;
-  text-decoration: none;
-  border-radius: 6px;
-}
-
-/* FOOTER */
-footer {
-  text-align: center;
   padding: 15px;
-  background: #111;
-  color: #aaa;
+  font-size: 14px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1100px) {
+  .property-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .property-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content h1 {
+    font-size: 26px;
+  }
 }
