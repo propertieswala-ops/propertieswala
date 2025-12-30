@@ -1,73 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>PropertiesWala | Trusted Property Solutions</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Verified Residential & Commercial Properties Across West Bengal">
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <meta name="description" content="Verified residential and commercial properties across West Bengal. Honest advice, direct WhatsApp enquiry." />
+  <meta name="keywords" content="property in kolkata, commercial showroom, apartment, real estate west bengal" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
+<!-- ================= NAVBAR ================= -->
 <header class="navbar">
   <div class="logo">Properties<span>Wala</span></div>
   <nav>
-    <a href="/">Home</a>
+    <a href="#">Home</a>
     <a href="#properties">Properties</a>
     <a href="#contact">Contact</a>
   </nav>
 </header>
 
+<!-- ================= HERO ================= -->
 <section class="hero">
   <div class="hero-content">
     <h1>Trusted Property Solutions Across West Bengal</h1>
     <p>Residential & Commercial Properties • Honest Advice • Verified Listings</p>
-    <input type="text" placeholder="Search by location or property type">
+
+    <input type="text" placeholder="Search by location or property type" disabled />
+
+    <div class="filters">
+      <button>All</button>
+      <button>Residential</button>
+      <button>Commercial</button>
+    </div>
   </div>
 </section>
 
-<section id="properties" class="section">
+<!-- ================= PROPERTIES ================= -->
+<section id="properties" class="properties">
   <h2>Latest Available Properties</h2>
-  <div id="propertyGrid" class="grid"></div>
+  <div id="propertyGrid" class="property-grid"></div>
 </section>
 
+<!-- ================= CONTACT ================= -->
 <section id="contact" class="contact">
   <h2>Contact Us</h2>
-  <p>Speak directly with a property expert</p>
-  <a class="call-btn" href="tel:+919433365152">Call Now: +91 9433365152</a>
+  <p>Speak directly with a property expert for verified listings and honest advice.</p>
+  <p>
+    Call Now:
+    <a href="tel:+919433365152"><strong>+91 9433365152</strong></a>
+  </p>
 </section>
 
+<!-- ================= FOOTER ================= -->
 <footer>
   © 2025 PropertiesWala. All rights reserved.
 </footer>
 
+<!-- ================= SCRIPT ================= -->
 <script>
-const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
+const CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
+
+/* Proper CSV parser (handles commas inside quotes) */
+function parseCSV(text) {
+  const rows = [];
+  let row = [];
+  let value = "";
+  let insideQuotes = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    const next = text[i + 1];
+
+    if (char === '"' && insideQuotes && next === '"') {
+      value += '"';
+      i++;
+    } else if (char === '"') {
+      insideQuotes = !insideQuotes;
+    } else if (char === "," && !insideQuotes) {
+      row.push(value.trim());
+      value = "";
+    } else if (char === "\n" && !insideQuotes) {
+      row.push(value.trim());
+      rows.push(row);
+      row = [];
+      value = "";
+    } else {
+      value += char;
+    }
+  }
+
+  if (value) {
+    row.push(value.trim());
+    rows.push(row);
+  }
+
+  return rows;
+}
 
 fetch(CSV_URL)
   .then(res => res.text())
-  .then(csv => {
-    const rows = csv.trim().split("\n").slice(1);
+  .then(text => {
+    const data = parseCSV(text);
     const grid = document.getElementById("propertyGrid");
 
-    rows.forEach(row => {
-      const cols = row.split(",");
+    data.slice(1).forEach(cols => {
+      if (!cols[6]) return;
 
       const type = cols[2];
       const location = cols[3];
       const area = cols[4];
       const price = cols[5];
-      const image = cols[6];   // EXACT path from sheet
+      const image = cols[6];
       const phone = cols[7];
-
-      if (!image) return;
 
       const card = document.createElement("div");
       card.className = "card";
 
       card.innerHTML = `
-        <img src="${image}" alt="${type} in ${location}" loading="lazy">
+        <img src="${image}" alt="${type}" loading="lazy" />
         <h3>${type}</h3>
         <p><strong>Location:</strong> ${location}</p>
         <p><strong>Area:</strong> ${area} sqft</p>
@@ -82,7 +139,7 @@ fetch(CSV_URL)
       grid.appendChild(card);
     });
   })
-  .catch(err => console.error("CSV Error:", err));
+  .catch(err => console.error("CSV Load Error:", err));
 </script>
 
 </body>
