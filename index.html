@@ -22,6 +22,7 @@
 
       <nav class="nav-links">
         <a href="#home">Home</a>
+        <a href="#lead">Requirement</a>
         <a href="#properties">Properties</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -46,17 +47,18 @@
     </div>
   </section>
 
-  <!-- ================= LEAD FORM (IMPORTANT) ================= -->
-  <section class="lead-section">
+  <!-- ================= LEAD FORM ================= -->
+  <section id="lead" class="lead-section">
     <div class="lead-box">
       <div class="lead-left">
         <h2>Get Call Back in 10 Minutes</h2>
-        <p>Tell us your requirement. We will share matching verified options instantly.</p>
+        <p>Submit your requirement. We will share matching verified options quickly.</p>
 
         <ul class="trust-points">
           <li>Verified Listings Only</li>
           <li>Direct Site Visit Support</li>
           <li>Kolkata & West Bengal Specialist</li>
+          <li>Fast WhatsApp Response</li>
         </ul>
       </div>
 
@@ -70,19 +72,18 @@
           <option value="Residential">Residential</option>
         </select>
 
-        <select id="leadType" required>
-          <option value="">Select Property Type</option>
-          <option value="Retail Showroom">Retail Showroom</option>
-          <option value="Office Space">Office Space</option>
-          <option value="Apartment">Apartment</option>
-          <option value="Land / Plot">Land / Plot</option>
-          <option value="Other">Other</option>
+        <select id="leadDeal" required>
+          <option value="">Buy / Rent</option>
+          <option value="Buy">Buy</option>
+          <option value="Rent">Rent</option>
         </select>
 
         <input type="text" id="leadBudget" placeholder="Budget (Example: 2.5 Cr / 70 Lakh)" required />
         <input type="text" id="leadArea" placeholder="Preferred Area (Example: Park Street, Kolkata)" required />
 
-        <button type="submit" class="lead-submit">Send Requirement on WhatsApp</button>
+        <button type="submit" class="lead-submit">Submit Requirement</button>
+
+        <div id="leadMsg" class="lead-msg"></div>
       </form>
     </div>
   </section>
@@ -93,6 +94,7 @@
     <div id="propertyGrid" class="property-grid"></div>
 
     <div id="loadingText" class="loading-text">Loading properties...</div>
+    <div id="errorText" class="error-text"></div>
   </section>
 
   <!-- ================= CONTACT ================= -->
@@ -122,9 +124,7 @@
   </footer>
 
   <!-- ================= FLOATING BUTTONS ================= -->
-  <a class="floating-btn floating-call" href="tel:+919433365152" title="Call Now">
-    Call
-  </a>
+  <a class="floating-btn floating-call" href="tel:+919433365152" title="Call Now">Call</a>
 
   <a class="floating-btn floating-wa"
     target="_blank"
@@ -135,14 +135,22 @@
 
   <!-- ================= JAVASCRIPT ================= -->
   <script>
-    // --------------- SETTINGS ---------------
+    // ============================
+    // SETTINGS (EDIT ONLY ONCE)
+    // ============================
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
-    const DEFAULT_WHATSAPP = "919433365152"; // your WhatsApp number
+    const OWNER_WHATSAPP = "919433365152"; // your WhatsApp (owner)
+    const WEBSITE_BASE = "https://propertieswala.in";
+
+    // ✅ Google Sheet Lead Save Web App URL (You will paste your Apps Script URL here)
+    const APPS_SCRIPT_WEBAPP_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL_HERE";
 
     let ALL_PROPERTIES = [];
     let ACTIVE_FILTER = "All";
 
-    // --------------- HELPERS ---------------
+    // ============================
+    // HELPERS
+    // ============================
     function escapeHTML(str) {
       if (!str) return "";
       return String(str)
@@ -153,18 +161,27 @@
         .replaceAll("'", "&#039;");
     }
 
-    function normalizeCategory(cat) {
-      if (!cat) return "";
-      const c = cat.trim().toLowerCase();
-      if (c.includes("res")) return "Residential";
-      if (c.includes("com")) return "Commercial";
-      return cat.trim();
+    function clean(v) {
+      return (v || "").toString().trim().replace(/^"+|"+$/g, "");
     }
 
+    function normalizeCategory(cat) {
+      const c = clean(cat).toLowerCase();
+      if (c.includes("res")) return "Residential";
+      if (c.includes("com")) return "Commercial";
+      return clean(cat);
+    }
+
+    function buildWhatsAppLink(number, message) {
+      const num = clean(number).replace(/\D/g, "") || OWNER_WHATSAPP;
+      return `https://wa.me/${num}?text=${encodeURIComponent(message)}`;
+    }
+
+    // Robust CSV parsing (supports commas inside quotes)
     function csvToRows(csvText) {
-      // Simple CSV parser (works with your sheet structure)
       const lines = csvText.split(/\r?\n/).filter(Boolean);
       const rows = [];
+
       for (let line of lines) {
         const cols = [];
         let current = "";
@@ -185,18 +202,31 @@
             current += ch;
           }
         }
+
         cols.push(current);
-        rows.push(cols);
+        rows.push(cols.map(c => clean(c)));
       }
+
       return rows;
     }
 
-    function buildWhatsAppLink(whatsAppNumber, message) {
-      const num = (whatsAppNumber || DEFAULT_WHATSAPP).replace(/\D/g, "");
-      const text = encodeURIComponent(message);
-      return `https://wa.me/${num}?text=${text}`;
+    function makePropertyDetailsURL(id) {
+      return `${WEBSITE_BASE}/property.html?id=${encodeURIComponent(id)}`;
     }
 
+    function copyToClipboard(text) {
+      if (!navigator.clipboard) {
+        alert("Copy not supported on this browser. Please copy manually: " + text);
+        return;
+      }
+      navigator.clipboard.writeText(text)
+        .then(() => alert("✅ Link Copied!"))
+        .catch(() => alert("❌ Copy failed. Please try again."));
+    }
+
+    // ============================
+    // RENDER PROPERTIES
+    // ============================
     function renderProperties(list) {
       const grid = document.getElementById("propertyGrid");
       const loadingText = document.getElementById("loadingText");
@@ -212,103 +242,162 @@
       loadingText.style.display = "none";
 
       list.forEach((p) => {
-        const safeType = escapeHTML(p.Type);
-        const safeLocation = escapeHTML(p.Location);
-        const safeArea = escapeHTML(p.Area);
-        const safePrice = escapeHTML(p.Price);
+        const id = clean(p.ID);
+        const category = normalizeCategory(p.Category);
+        const type = clean(p.Type);
+        const location = clean(p.Location);
+        const area = clean(p.Area);
+        const price = clean(p.Price);
 
-        // IMPORTANT: image is full URL in your sheet
-        const imgUrl = (p.Image || "").trim();
+        // Image is full URL in sheet (recommended)
+        const imgUrl = clean(p.Image);
 
-        // ALT text SEO-friendly
-        const altText = `${p.Type || "Property"} in ${p.Location || "Kolkata"} - PropertiesWala`;
+        // SEO alt text
+        const altText = `${type || "Property"} in ${location || "Kolkata"} | PropertiesWala`;
 
-        const whatsappMsg =
-          `Hello PropertiesWala, I am interested in this property:\n` +
-          `ID: ${p.ID}\n` +
-          `Category: ${p.Category}\n` +
-          `Type: ${p.Type}\n` +
-          `Location: ${p.Location}\n` +
-          `Area: ${p.Area} sqft\n` +
-          `Price: ${p.Price}\n\n` +
-          `Please share more photos and arrange a site visit.`;
+        const detailsUrl = makePropertyDetailsURL(id);
 
-        const waLink = buildWhatsAppLink(p.WhatsApp, whatsappMsg);
+        // WhatsApp Enquiry (Owner)
+        const enquiryMsg =
+          `Hello PropertiesWala, I am interested in this property:\n\n` +
+          `ID: ${id}\n` +
+          `Category: ${category}\n` +
+          `Type: ${type}\n` +
+          `Location: ${location}\n` +
+          `Area: ${area} sqft\n` +
+          `Price: ${price}\n\n` +
+          `Link: ${detailsUrl}\n\n` +
+          `Please share more photos & arrange a site visit.`;
+
+        const waEnquiryLink = buildWhatsAppLink(p.WhatsApp || OWNER_WHATSAPP, enquiryMsg);
+
+        // Share to ANYONE (viral sharing)
+        const shareMsg =
+          `✅ Verified Property - PropertiesWala\n\n` +
+          `Type: ${type}\n` +
+          `Location: ${location}\n` +
+          `Area: ${area} sqft\n` +
+          `Price: ${price}\n\n` +
+          `👉 Full details: ${detailsUrl}\n\n` +
+          `📞 Call: +91 9433365152`;
+
+        const waShareLink = buildWhatsAppLink("", shareMsg);
 
         const card = document.createElement("div");
         card.className = "property-card";
 
         card.innerHTML = `
           <div class="property-image">
-            <img src="${escapeHTML(imgUrl)}" alt="${escapeHTML(altText)}" loading="lazy"
-              onerror="this.style.display='none'; this.parentElement.classList.add('no-image');" />
+            <img
+              src="${escapeHTML(imgUrl)}"
+              alt="${escapeHTML(altText)}"
+              loading="lazy"
+              onerror="this.style.display='none'; this.parentElement.classList.add('no-image');"
+            />
+            <div class="property-badge">${escapeHTML(category || "Property")}</div>
           </div>
 
           <div class="property-body">
-            <h3>${safeType}</h3>
+            <h3>${escapeHTML(type)}</h3>
+            <p><strong>Location:</strong> ${escapeHTML(location)}</p>
+            <p><strong>Area:</strong> ${escapeHTML(area)} sqft</p>
+            <p><strong>Price:</strong> ${escapeHTML(price)}</p>
 
-            <p><strong>Location:</strong> ${safeLocation}</p>
-            <p><strong>Area:</strong> ${safeArea} sqft</p>
-            <p><strong>Price:</strong> ${safePrice}</p>
+            <div class="btn-row">
+              <a class="btn-primary" target="_blank" href="${waEnquiryLink}">
+                WhatsApp Enquiry
+              </a>
 
-            <a class="whatsapp-btn" target="_blank" href="${waLink}">
-              WhatsApp Enquiry
-            </a>
+              <a class="btn-outline" href="property.html?id=${encodeURIComponent(id)}">
+                View Details
+              </a>
+            </div>
+
+            <div class="btn-row">
+              <a class="btn-dark" target="_blank" href="${waShareLink}">
+                Share
+              </a>
+
+              <button class="btn-copy" type="button" data-copy="${escapeHTML(detailsUrl)}">
+                Copy Link
+              </button>
+            </div>
+
+            <div class="mini-actions">
+              <a class="mini-call" href="tel:+919433365152">Call Now</a>
+            </div>
           </div>
         `;
 
         grid.appendChild(card);
       });
+
+      // Attach copy handlers
+      document.querySelectorAll(".btn-copy").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const link = btn.getAttribute("data-copy");
+          copyToClipboard(link);
+        });
+      });
     }
 
     function applyFilter() {
+      const loadingText = document.getElementById("loadingText");
+      const errorText = document.getElementById("errorText");
+
+      errorText.textContent = "";
+
       if (ACTIVE_FILTER === "All") {
         renderProperties(ALL_PROPERTIES);
         return;
       }
-      const filtered = ALL_PROPERTIES.filter((p) => p.Category === ACTIVE_FILTER);
+
+      const filtered = ALL_PROPERTIES.filter(p => normalizeCategory(p.Category) === ACTIVE_FILTER);
       renderProperties(filtered);
+
+      if (filtered.length === 0) {
+        loadingText.style.display = "block";
+        loadingText.textContent = "No properties found in this category.";
+      }
     }
 
     async function loadCSV() {
       const loadingText = document.getElementById("loadingText");
+      const errorText = document.getElementById("errorText");
+
       loadingText.style.display = "block";
       loadingText.textContent = "Loading properties...";
+      errorText.textContent = "";
 
       try {
-        const res = await fetch(CSV_URL);
-        const text = await res.text();
+        const res = await fetch(CSV_URL, { cache: "no-store" });
+        if (!res.ok) throw new Error("CSV not loading. Check Publish to Web setting.");
 
+        const text = await res.text();
         const rows = csvToRows(text);
 
-        // Headers expected:
-        // ID, Category, Type, Location, Area, Price, Image, WhatsApp
-        const headers = rows[0].map(h => h.trim());
+        const headers = rows[0].map(h => clean(h));
 
         const data = rows.slice(1).map(row => {
           const obj = {};
-          headers.forEach((h, idx) => {
-            obj[h] = row[idx] ? row[idx].trim() : "";
-          });
-
-          // Ensure category normalized
+          headers.forEach((h, i) => obj[h] = row[i] ? clean(row[i]) : "");
           obj.Category = normalizeCategory(obj.Category);
-
           return obj;
         });
 
-        // remove empty rows
         ALL_PROPERTIES = data.filter(p => p.ID && p.Type);
 
+        loadingText.style.display = "none";
         applyFilter();
 
       } catch (err) {
         console.error(err);
-        loadingText.textContent = "Error loading properties. Please check your Google Sheet publish settings.";
+        loadingText.style.display = "none";
+        errorText.textContent = "❌ Error loading properties. Please check Google Sheet publish settings.";
       }
     }
 
-    // --------------- FILTER BUTTONS ---------------
+    // Filter buttons
     document.querySelectorAll(".filter-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
@@ -318,32 +407,74 @@
       });
     });
 
-    // --------------- LEAD FORM TO WHATSAPP ---------------
-    document.getElementById("leadForm").addEventListener("submit", function(e) {
+    // ============================
+    // LEAD FORM: Save to Google Sheet + WhatsApp
+    // ============================
+    document.getElementById("leadForm").addEventListener("submit", async function(e) {
       e.preventDefault();
 
-      const name = document.getElementById("leadName").value.trim();
-      const phone = document.getElementById("leadPhone").value.trim();
-      const category = document.getElementById("leadCategory").value.trim();
-      const type = document.getElementById("leadType").value.trim();
-      const budget = document.getElementById("leadBudget").value.trim();
-      const area = document.getElementById("leadArea").value.trim();
+      const leadMsg = document.getElementById("leadMsg");
+      leadMsg.textContent = "Submitting...";
+      leadMsg.style.color = "#1f3b5d";
 
-      const msg =
-        `New Lead from PropertiesWala Website:\n\n` +
+      const name = clean(document.getElementById("leadName").value);
+      const phone = clean(document.getElementById("leadPhone").value);
+      const category = clean(document.getElementById("leadCategory").value);
+      const deal = clean(document.getElementById("leadDeal").value);
+      const budget = clean(document.getElementById("leadBudget").value);
+      const area = clean(document.getElementById("leadArea").value);
+
+      const payload = {
+        date: new Date().toISOString(),
+        name,
+        phone,
+        category,
+        deal,
+        budget,
+        area,
+        source: "Website"
+      };
+
+      // 1) Save to Google Sheet (Apps Script)
+      let sheetSaved = false;
+      if (APPS_SCRIPT_WEBAPP_URL && !APPS_SCRIPT_WEBAPP_URL.includes("PASTE_YOUR")) {
+        try {
+          await fetch(APPS_SCRIPT_WEBAPP_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          sheetSaved = true;
+        } catch (err) {
+          console.log("Apps Script save error:", err);
+        }
+      }
+
+      // 2) Open WhatsApp to Owner (Instant notification)
+      const ownerText =
+        `✅ New Lead from PropertiesWala.in\n\n` +
         `Name: ${name}\n` +
         `Phone: ${phone}\n` +
         `Category: ${category}\n` +
-        `Type: ${type}\n` +
+        `Buy/Rent: ${deal}\n` +
         `Budget: ${budget}\n` +
         `Preferred Area: ${area}\n\n` +
-        `Please share matching verified listings.`;
+        `Please send matching verified properties.`;
 
-      const link = buildWhatsAppLink(DEFAULT_WHATSAPP, msg);
-      window.open(link, "_blank");
+      const waOwnerLink = buildWhatsAppLink(OWNER_WHATSAPP, ownerText);
+
+      leadMsg.textContent = sheetSaved
+        ? "✅ Lead submitted & saved. Opening WhatsApp..."
+        : "✅ Lead submitted. Opening WhatsApp...";
+      leadMsg.style.color = "green";
+
+      document.getElementById("leadForm").reset();
+
+      window.open(waOwnerLink, "_blank");
     });
 
-    // Load properties
+    // Start loading
     loadCSV();
   </script>
 
