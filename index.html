@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>PropertiesWala | Verified Property Listings in Kolkata & West Bengal</title>
-  <meta name="description" content="PropertiesWala provides verified residential & commercial property listings across Kolkata & West Bengal. Contact now for direct site visit support." />
+  <title>PropertiesWala | Verified Properties & Loan Assistance in Kolkata</title>
+  <meta name="description" content="Verified commercial and residential properties across Kolkata & West Bengal. Get site visits, WhatsApp support, and loan assistance from Govt Banks, NBFCs & Private Banks." />
   <link rel="canonical" href="https://propertieswala.in/" />
 
   <link rel="stylesheet" href="style.css" />
@@ -16,14 +16,13 @@
   <!-- ================= NAVBAR ================= -->
   <header class="navbar">
     <div class="nav-container">
-      <div class="logo">
-        Properties<span>Wala</span>
-      </div>
+      <div class="logo">Properties<span>Wala</span></div>
 
       <nav class="nav-links">
         <a href="#home">Home</a>
         <a href="#lead">Requirement</a>
         <a href="#properties">Properties</a>
+        <a href="loan-assistance.html">Loan</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
@@ -35,14 +34,50 @@
 
     <div class="hero-content">
       <h1>Trusted Property Solutions Across West Bengal</h1>
-      <p>Residential & Commercial Properties • Honest Advice • Verified Listings</p>
+      <p>Verified Listings • Honest Advice • Direct Site Visit Support</p>
 
-      <input class="hero-search" type="text" placeholder="Search by location or property type (Coming Soon)" disabled />
+      <input class="hero-search" type="text" placeholder="Search (Coming Soon)" disabled />
 
       <div class="filters">
         <button class="filter-btn active" data-filter="All">All</button>
         <button class="filter-btn" data-filter="Residential">Residential</button>
         <button class="filter-btn" data-filter="Commercial">Commercial</button>
+      </div>
+
+      <!-- ✅ Quick Action Bar (Lead Booster) -->
+      <div class="quick-actions">
+        <a class="qa-btn qa-call" href="tel:+919433365152">Call Now</a>
+        <a class="qa-btn qa-wa" target="_blank"
+           href="https://wa.me/919433365152?text=Hello%20PropertiesWala%2C%20I%20want%20verified%20property%20options%20and%20site%20visit%20support.">
+           WhatsApp
+        </a>
+        <a class="qa-btn qa-form" href="#lead">Submit Requirement</a>
+        <a class="qa-btn qa-loan" href="loan-assistance.html">Loan Assistance</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TRUST SECTION ================= -->
+  <section class="trust-section">
+    <div class="trust-wrap">
+      <h2>Why PropertiesWala?</h2>
+      <div class="trust-grid">
+        <div class="trust-card">
+          <h3>Verified Listings</h3>
+          <p>We focus on genuine properties to save your time and reduce risk.</p>
+        </div>
+        <div class="trust-card">
+          <h3>Direct Site Visit Support</h3>
+          <p>We help you schedule visits quickly and share accurate details.</p>
+        </div>
+        <div class="trust-card">
+          <h3>Fast WhatsApp Response</h3>
+          <p>Get photos, location and details instantly through WhatsApp enquiry.</p>
+        </div>
+        <div class="trust-card">
+          <h3>Loan Assistance Available</h3>
+          <p>Home Loan, LAP & Business Loan support from banks as per eligibility.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -55,10 +90,10 @@
         <p>Submit your requirement. We will share matching verified options quickly.</p>
 
         <ul class="trust-points">
-          <li>Verified Listings Only</li>
-          <li>Direct Site Visit Support</li>
-          <li>Kolkata & West Bengal Specialist</li>
-          <li>Fast WhatsApp Response</li>
+          <li>Commercial & Residential</li>
+          <li>Verified Options</li>
+          <li>Quick Site Visit</li>
+          <li>Loan Support Available</li>
         </ul>
       </div>
 
@@ -81,16 +116,50 @@
         <input type="text" id="leadBudget" placeholder="Budget (Example: 2.5 Cr / 70 Lakh)" required />
         <input type="text" id="leadArea" placeholder="Preferred Area (Example: Park Street, Kolkata)" required />
 
-        <button type="submit" class="lead-submit">Submit Requirement</button>
+        <select id="leadNeedLoan" required>
+          <option value="">Need Loan Assistance?</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
 
+        <button type="submit" class="lead-submit">Submit Requirement</button>
         <div id="leadMsg" class="lead-msg"></div>
       </form>
+    </div>
+  </section>
+
+  <!-- ================= LANDING PAGES LINKS ================= -->
+  <section class="landing-links">
+    <div class="landing-wrap">
+      <h2>Quick Browse</h2>
+      <div class="landing-grid">
+        <a class="landing-card" href="commercial-sale.html">
+          <h3>Commercial Sale</h3>
+          <p>Showrooms • Offices • Shops</p>
+        </a>
+
+        <a class="landing-card" href="commercial-rent.html">
+          <h3>Commercial Rent</h3>
+          <p>Fast closures • Monthly rentals</p>
+        </a>
+
+        <a class="landing-card" href="residential-sale.html">
+          <h3>Residential Sale</h3>
+          <p>Flats • Apartments • Homes</p>
+        </a>
+
+        <a class="landing-card" href="loan-assistance.html">
+          <h3>Loan Assistance</h3>
+          <p>Govt Banks • NBFC • Private Banks</p>
+        </a>
+      </div>
     </div>
   </section>
 
   <!-- ================= PROPERTIES ================= -->
   <section id="properties" class="properties-section">
     <h2>Latest Available Properties</h2>
+
     <div id="propertyGrid" class="property-grid"></div>
 
     <div id="loadingText" class="loading-text">Loading properties...</div>
@@ -135,22 +204,14 @@
 
   <!-- ================= JAVASCRIPT ================= -->
   <script>
-    // ============================
-    // SETTINGS (EDIT ONLY ONCE)
-    // ============================
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
     const OWNER_WHATSAPP = "919433365152";
     const WEBSITE_BASE = "https://propertieswala.in";
-
-    // ✅ UPDATED: Your Real Apps Script Web App URL (Mini CRM)
     const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbw0-YOhLZyIH4XAm9QJ0RqjF4RxkTsAvYRTT-BPOVK3tpqSmEnLrMBnsVOf5p_rs5WjAQ/exec";
 
     let ALL_PROPERTIES = [];
     let ACTIVE_FILTER = "All";
 
-    // ============================
-    // HELPERS
-    // ============================
     function escapeHTML(str) {
       if (!str) return "";
       return String(str)
@@ -177,7 +238,6 @@
       return `https://wa.me/${num}?text=${encodeURIComponent(message)}`;
     }
 
-    // Robust CSV parsing (supports commas inside quotes)
     function csvToRows(csvText) {
       const lines = csvText.split(/\r?\n/).filter(Boolean);
       const rows = [];
@@ -224,9 +284,6 @@
         .catch(() => alert("❌ Copy failed. Please try again."));
     }
 
-    // ============================
-    // RENDER PROPERTIES
-    // ============================
     function renderProperties(list) {
       const grid = document.getElementById("propertyGrid");
       const loadingText = document.getElementById("loadingText");
@@ -251,7 +308,6 @@
         const imgUrl = clean(p.Image);
 
         const altText = `${type || "Property"} in ${location || "Kolkata"} | PropertiesWala`;
-
         const detailsUrl = makePropertyDetailsURL(id);
 
         const enquiryMsg =
@@ -266,6 +322,13 @@
           `Please share more photos & arrange a site visit.`;
 
         const waEnquiryLink = buildWhatsAppLink(p.WhatsApp || OWNER_WHATSAPP, enquiryMsg);
+
+        const loanMsg =
+          `Hello PropertiesWala, I need loan assistance for this property:\n\n` +
+          `Property ID: ${id}\nType: ${type}\nLocation: ${location}\nPrice: ${price}\n\n` +
+          `Please guide home loan / LAP / business loan options.`;
+
+        const waLoanLink = buildWhatsAppLink(OWNER_WHATSAPP, loanMsg);
 
         const shareMsg =
           `✅ Verified Property - PropertiesWala\n\n` +
@@ -299,23 +362,18 @@
             <p><strong>Price:</strong> ${escapeHTML(price)}</p>
 
             <div class="btn-row">
-              <a class="btn-primary" target="_blank" href="${waEnquiryLink}">
-                WhatsApp Enquiry
-              </a>
-
-              <a class="btn-outline" href="property.html?id=${encodeURIComponent(id)}">
-                View Details
-              </a>
+              <a class="btn-primary" target="_blank" href="${waEnquiryLink}">WhatsApp Enquiry</a>
+              <a class="btn-outline" href="property.html?id=${encodeURIComponent(id)}">View Details</a>
             </div>
 
             <div class="btn-row">
-              <a class="btn-dark" target="_blank" href="${waShareLink}">
-                Share
-              </a>
+              <a class="btn-dark" target="_blank" href="${waShareLink}">Share</a>
+              <button class="btn-copy" type="button" data-copy="${escapeHTML(detailsUrl)}">Copy Link</button>
+            </div>
 
-              <button class="btn-copy" type="button" data-copy="${escapeHTML(detailsUrl)}">
-                Copy Link
-              </button>
+            <div class="btn-row">
+              <a class="btn-loan" href="loan-assistance.html">Loan Info</a>
+              <a class="btn-loan2" target="_blank" href="${waLoanLink}">Need Loan?</a>
             </div>
 
             <div class="mini-actions">
@@ -327,24 +385,18 @@
         grid.appendChild(card);
       });
 
-      // Copy button handler
       document.querySelectorAll(".btn-copy").forEach(btn => {
         btn.addEventListener("click", () => {
-          const link = btn.getAttribute("data-copy");
-          copyToClipboard(link);
+          copyToClipboard(btn.getAttribute("data-copy"));
         });
       });
     }
 
     function applyFilter() {
-      const errorText = document.getElementById("errorText");
-      errorText.textContent = "";
-
       if (ACTIVE_FILTER === "All") {
         renderProperties(ALL_PROPERTIES);
         return;
       }
-
       const filtered = ALL_PROPERTIES.filter(p => normalizeCategory(p.Category) === ACTIVE_FILTER);
       renderProperties(filtered);
     }
@@ -359,7 +411,7 @@
 
       try {
         const res = await fetch(CSV_URL, { cache: "no-store" });
-        if (!res.ok) throw new Error("CSV not loading. Check Publish to Web setting.");
+        if (!res.ok) throw new Error("CSV not loading. Check publish settings.");
 
         const text = await res.text();
         const rows = csvToRows(text);
@@ -374,6 +426,7 @@
         });
 
         ALL_PROPERTIES = data.filter(p => p.ID && p.Type);
+
         loadingText.style.display = "none";
         applyFilter();
 
@@ -384,7 +437,6 @@
       }
     }
 
-    // Filter buttons
     document.querySelectorAll(".filter-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
@@ -394,9 +446,6 @@
       });
     });
 
-    // ============================
-    // LEAD FORM: Save to Google Sheet + WhatsApp
-    // ============================
     document.getElementById("leadForm").addEventListener("submit", async function(e) {
       e.preventDefault();
 
@@ -410,6 +459,7 @@
       const deal = clean(document.getElementById("leadDeal").value);
       const budget = clean(document.getElementById("leadBudget").value);
       const area = clean(document.getElementById("leadArea").value);
+      const needLoan = clean(document.getElementById("leadNeedLoan").value);
 
       const payload = {
         date: new Date().toISOString(),
@@ -422,7 +472,6 @@
         source: "Website"
       };
 
-      // ✅ Save to Google Sheet (Apps Script)
       let sheetSaved = false;
       try {
         await fetch(APPS_SCRIPT_WEBAPP_URL, {
@@ -436,7 +485,6 @@
         console.log("Apps Script save error:", err);
       }
 
-      // ✅ Send WhatsApp notification to owner
       const ownerText =
         `✅ New Lead from PropertiesWala.in\n\n` +
         `Name: ${name}\n` +
@@ -444,7 +492,8 @@
         `Category: ${category}\n` +
         `Buy/Rent: ${deal}\n` +
         `Budget: ${budget}\n` +
-        `Preferred Area: ${area}\n\n` +
+        `Preferred Area: ${area}\n` +
+        `Need Loan: ${needLoan}\n\n` +
         `Please send matching verified properties.`;
 
       const waOwnerLink = buildWhatsAppLink(OWNER_WHATSAPP, ownerText);
@@ -455,11 +504,9 @@
       leadMsg.style.color = "green";
 
       document.getElementById("leadForm").reset();
-
       window.open(waOwnerLink, "_blank");
     });
 
-    // Start
     loadCSV();
   </script>
 
