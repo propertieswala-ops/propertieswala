@@ -1,89 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <!-- SEO TITLE -->
-  <title>Retail Showroom in Tollygunge Kolkata | PropertiesWala</title>
+  <title>Property Details | PropertiesWala</title>
+  <meta name="description" content="Property details page for verified listings across West Bengal." />
 
-  <!-- SEO META DESCRIPTION -->
-  <meta name="description"
-    content="Retail showroom for sale in Tollygunge, Kolkata. 10775 sqft commercial property with verified documents. Call PropertiesWala for enquiry." />
-
-  <!-- SEO KEYWORDS -->
-  <meta name="keywords"
-    content="Retail showroom Tollygunge, commercial property Kolkata, showroom for sale Kolkata" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 
 <body>
 
-<!-- NAVBAR (same as index.html) -->
-<header class="navbar">
-  <div class="logo">Properties<span>Wala</span></div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="index.html#properties">Properties</a>
-    <a href="index.html#contact">Contact</a>
-  </nav>
-</header>
+  <header class="navbar">
+    <div class="logo">Properties<span>Wala</span></div>
+    <nav>
+      <a href="index.html#home">Home</a>
+      <a href="index.html#properties">Properties</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </header>
 
-<!-- PROPERTY DETAILS -->
-<section class="property-details">
+  <section class="properties" style="padding-top: 30px;">
+    <h2>Property Details</h2>
+    <div id="detailsBox" style="max-width: 900px; margin: 20px auto; text-align:left;"></div>
+  </section>
 
-  <!-- H1 (ONLY ONE ON PAGE) -->
-  <h1>Retail Showroom for Sale in Tollygunge, Kolkata</h1>
+  <footer class="footer">
+    <p>© 2026 PropertiesWala. All rights reserved.</p>
+  </footer>
 
-  <!-- IMAGE -->
-  <img
-    src="https://propertieswala.in/image/PR1-Naktala-Kolkata.jpg"
-    alt="Retail showroom for sale in Tollygunge Kolkata"
-    class="property-main-image"
-  />
+  <script>
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
+    const DEFAULT_WHATSAPP = "919433365152";
+    const IMAGE_FOLDER = "image";
 
-  <!-- BASIC INFO -->
-  <div class="property-info">
-    <p><strong>Location:</strong> Tollygunge, Kolkata</p>
-    <p><strong>Area:</strong> 10,775 sq ft</p>
-    <p><strong>Price:</strong> 12 Crore</p>
-    <p><strong>Property Type:</strong> Commercial Retail Showroom</p>
-  </div>
+    function cleanValue(v) {
+      return (v || "").toString().trim();
+    }
 
-  <!-- H2 -->
-  <h2>Property Overview</h2>
-  <p>
-    This premium retail showroom is located in the heart of Tollygunge, Kolkata.
-    Ideal for brands, showrooms, banks, and commercial establishments with high
-    footfall and excellent connectivity.
-  </p>
+    function parseCSV(csvText) {
+      const rows = [];
+      let row = [];
+      let current = "";
+      let insideQuotes = false;
 
-  <!-- H2 -->
-  <h2>Why Invest in This Property?</h2>
-  <ul>
-    <li>Prime commercial location</li>
-    <li>High visibility road frontage</li>
-    <li>Verified documents</li>
-    <li>Excellent rental yield potential</li>
-  </ul>
+      for (let i = 0; i < csvText.length; i++) {
+        const char = csvText[i];
+        const next = csvText[i + 1];
 
-  <!-- CTA -->
-  <a
-    href="https://wa.me/919433365152?text=I%20am%20interested%20in%20Retail%20Showroom%20in%20Tollygunge"
-    class="whatsapp-btn"
-  >
-    WhatsApp Enquiry
-  </a>
+        if (char === '"' && insideQuotes && next === '"') {
+          current += '"';
+          i++;
+        } else if (char === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (char === "," && !insideQuotes) {
+          row.push(current);
+          current = "";
+        } else if (char === "\n" && !insideQuotes) {
+          row.push(current);
+          rows.push(row);
+          row = [];
+          current = "";
+        } else {
+          current += char;
+        }
+      }
 
-</section>
+      if (current.length > 0 || row.length > 0) {
+        row.push(current);
+        rows.push(row);
+      }
 
-<!-- FOOTER -->
-<footer>
-  <p>© 2025 PropertiesWala. All rights reserved.</p>
-</footer>
+      return rows;
+    }
+
+    function buildImageURL(imageValue) {
+      const img = cleanValue(imageValue);
+
+      if (img.startsWith("http://") || img.startsWith("https://")) return img;
+
+      if (img.startsWith("image/")) return "/" + img;
+
+      return `/${IMAGE_FOLDER}/${img}`;
+    }
+
+    function buildWhatsAppLink(phone, message) {
+      const wa = cleanValue(phone) || DEFAULT_WHATSAPP;
+      return `https://wa.me/${wa}?text=${encodeURIComponent(message)}`;
+    }
+
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    async function loadPropertyDetails() {
+      const propId = getQueryParam("id");
+      const box = document.getElementById("detailsBox");
+
+      if (!propId) {
+        box.innerHTML = "<p>No property ID found.</p>";
+        return;
+      }
+
+      try {
+        const res = await fetch(CSV_URL);
+        const text = await res.text();
+
+        const rows = parseCSV(text.trim());
+        const headers = rows[0].map(h => cleanValue(h));
+
+        const list = rows.slice(1).map(cols => {
+          const obj = {};
+          headers.forEach((h, i) => {
+            obj[h] = cleanValue(cols[i] || "");
+          });
+          return obj;
+        });
+
+        const p = list.find(x => cleanValue(x.ID) === cleanValue(propId));
+
+        if (!p) {
+          box.innerHTML = "<p>Property not found.</p>";
+          return;
+        }
+
+        const imgUrl = buildImageURL(p.Image);
+        const waMsg =
+`Hi PropertiesWala, I am interested in Property ID: ${p.ID}.
+Type: ${p.Type}
+Location: ${p.Location}
+Please share full details and arrange a visit.`;
+
+        box.innerHTML = `
+          <div class="property-card" style="overflow:hidden;">
+            <img src="${imgUrl}" alt="${p.Type} in ${p.Location}" style="height:320px;" />
+            <div class="property-info">
+              <h3>${p.Type}</h3>
+              <p><strong>Property ID:</strong> ${p.ID}</p>
+              <p><strong>Category:</strong> ${p.Category}</p>
+              <p><strong>Location:</strong> ${p.Location}</p>
+              <p><strong>Area:</strong> ${p.Area} sqft</p>
+              <p><strong>Price:</strong> ${p.Price}</p>
+
+              <div class="card-actions" style="max-width:380px;">
+                <a class="btn btn-green" target="_blank" href="${buildWhatsAppLink(p.WhatsApp, waMsg)}">WhatsApp Enquiry</a>
+                <a class="btn btn-blue" href="tel:+91${cleanValue(p.WhatsApp) || DEFAULT_WHATSAPP}">Call Now</a>
+                <a class="btn btn-outline" href="index.html#properties">Back to Properties</a>
+              </div>
+            </div>
+          </div>
+        `;
+      } catch (err) {
+        box.innerHTML = "<p>Error loading property details.</p>";
+        console.error(err);
+      }
+    }
+
+    loadPropertyDetails();
+  </script>
 
 </body>
 </html>
-
