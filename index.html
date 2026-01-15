@@ -1,186 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
-<<!-- ================= SEO META TAGS ================= -->
-<title>PropertiesWala | Buy & Sell Property in Kolkata</title>
-
-<meta name="description" content="PropertiesWala provides verified residential and commercial properties in Kolkata. Retail showrooms, apartments, honest advice, and instant WhatsApp enquiry.">
-
-<meta name="keywords" content="property in kolkata, retail showroom kolkata, apartment for sale kolkata, commercial property kolkata">
-
-<meta name="author" content="PropertiesWala">
-<meta name="robots" content="index, follow">
-
-<!-- Mobile Optimization -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- ================= OPEN GRAPH ================= -->
-<meta property="og:title" content="PropertiesWala | Trusted Property Solutions in Kolkata">
-<meta property="og:description" content="Verified residential & commercial properties with honest advice and WhatsApp enquiry.">
-<meta property="og:image" content="https://propertieswala.in/image/hero-drehero-dreamy-commercial-kolkata.jpg">
-<meta property="og:url" content="https://propertieswala.in/">
-<meta property="og:type" content="website">
->
+<head>
   <meta charset="UTF-8" />
-  <title>PropertiesWala | Trusted Property Solutions</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- SEO -->
-  <meta name="description" content="Verified residential and commercial properties across West Bengal. Honest advice, direct WhatsApp enquiry." />
-  <meta name="keywords" content="property in kolkata, commercial showroom, apartment, real estate west bengal" />
+  <title>PropertiesWala | Trusted Property Solutions Across West Bengal</title>
+  <meta name="description" content="Verified commercial and residential properties across West Bengal. Call or WhatsApp for enquiry and property visits." />
 
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "RealEstateAgent",
-  "name": "PropertiesWala",
-  "url": "https://propertieswala.in",
-  "areaServed": "Kolkata",
-  "telephone": "+91-9433365152"
-}
-</script>
 <body>
 
-<!-- ================= NAVBAR ================= -->
-<header class="navbar">
-  <div class="logo">Properties<span>Wala</span></div>
-  <nav>
-    <a href="#">Home</a>
-    <a href="#properties">Properties</a>
-    <a href="#contact">Contact</a>
-  </nav>
-</header>
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar">
+    <div class="logo">Properties<span>Wala</span></div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#properties">Properties</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-<!-- ================= HERO ================= -->
-<section class="hero">
-  <div class="hero-content">
-    <h1>Trusted Property Solutions Across West Bengal</h1>
-    <p>Residential & Commercial Properties • Honest Advice • Verified Listings</p>
+  <!-- ================= HERO ================= -->
+  <section id="home" class="hero">
+    <div class="hero-overlay"></div>
 
-    <input type="text" placeholder="Search by location or property type" disabled />
+    <div class="hero-content">
+      <!-- ✅ H1 For SEO -->
+      <h1>Trusted Property Solutions Across West Bengal</h1>
 
-    <div class="filters">
-      <button>All</button>
-      <button>Residential</button>
-      <button>Commercial</button>
+      <p>Residential & Commercial Properties • Honest Advice • Verified Listings</p>
+
+      <div class="hero-actions">
+        <input type="text" placeholder="Search by location or property type (Coming Soon)" disabled />
+      </div>
+
+      <div class="filters">
+        <button class="filter-btn active" data-filter="All">All</button>
+        <button class="filter-btn" data-filter="Residential">Residential</button>
+        <button class="filter-btn" data-filter="Commercial">Commercial</button>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ================= PROPERTIES ================= -->
-<section id="properties" class="properties">
-  <h2>Latest Available Properties</h2>
-  <div id="propertyGrid" class="property-grid"></div>
-</section>
+  <!-- ================= PROPERTIES ================= -->
+  <section id="properties" class="properties">
+    <h2>Latest Available Properties</h2>
+    <div id="propertyGrid" class="property-grid"></div>
+  </section>
 
-<!-- ================= CONTACT ================= -->
-<section id="contact" class="contact">
-  <h2>Contact Us</h2>
-  <p>Speak directly with a property expert for verified listings and honest advice.</p>
-  <p>
-    Call Now:
-    <a href="tel:+919433365152"><strong>+91 9433365152</strong></a>
-  </p>
-</section>
+  <!-- ================= CONTACT ================= -->
+  <section id="contact" class="contact">
+    <h2>Contact Us</h2>
+    <p>Speak directly with a property expert for verified listings and honest advice.</p>
 
-<!-- ================= FOOTER ================= -->
-<footer>
-  © 2025 PropertiesWala. All rights reserved.
-</footer>
+    <div class="contact-box">
+      <p><strong>Call Now:</strong></p>
+      <a class="contact-call" href="tel:+919433365152">+91 9433365152</a>
 
-<!-- ================= SCRIPT ================= -->
-<script>
-const CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
+      <p style="margin-top:12px;"><strong>WhatsApp:</strong></p>
+      <a class="contact-wa" target="_blank"
+         href="https://wa.me/919433365152?text=Hi%20PropertiesWala%2C%20I%20want%20property%20details%20and%20site%20visit.">
+         Chat on WhatsApp
+      </a>
+    </div>
+  </section>
 
-/* Proper CSV parser (handles commas inside quotes) */
-function parseCSV(text) {
-  const rows = [];
-  let row = [];
-  let value = "";
-  let insideQuotes = false;
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <p>© 2026 PropertiesWala. All rights reserved.</p>
+  </footer>
 
-  for (let i = 0; i < text.length; i++) {
-    const char = text[i];
-    const next = text[i + 1];
+  <!-- ================= FLOATING BUTTONS ================= -->
+  <a class="float-whatsapp"
+     target="_blank"
+     href="https://wa.me/919433365152?text=Hi%20PropertiesWala%2C%20I%20am%20interested%20in%20your%20property%20listings.">
+     WhatsApp
+  </a>
 
-    if (char === '"' && insideQuotes && next === '"') {
-      value += '"';
-      i++;
-    } else if (char === '"') {
-      insideQuotes = !insideQuotes;
-    } else if (char === "," && !insideQuotes) {
-      row.push(value.trim());
-      value = "";
-    } else if (char === "\n" && !insideQuotes) {
-      row.push(value.trim());
-      rows.push(row);
-      row = [];
-      value = "";
-    } else {
-      value += char;
+  <a class="float-call" href="tel:+919433365152">Call</a>
+
+
+  <!-- ================= JAVASCRIPT ================= -->
+  <script>
+    // ✅ Your CSV (Confirmed)
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
+
+    // ✅ Your WhatsApp Number
+    const DEFAULT_WHATSAPP = "919433365152";
+
+    // ✅ Your GitHub images folder name (As per your repo screenshot)
+    const IMAGE_FOLDER = "image";
+
+    let allProperties = [];
+    let activeFilter = "All";
+
+    function cleanValue(v) {
+      return (v || "").toString().trim();
     }
-  }
 
-  if (value) {
-    row.push(value.trim());
-    rows.push(row);
-  }
+    // ✅ CSV Safe parsing (handles commas inside quotes)
+    function parseCSV(csvText) {
+      const rows = [];
+      let row = [];
+      let current = "";
+      let insideQuotes = false;
 
-  return rows;
-}
+      for (let i = 0; i < csvText.length; i++) {
+        const char = csvText[i];
+        const next = csvText[i + 1];
 
-fetch(CSV_URL)
-  .then(res => res.text())
-  .then(text => {
-    const data = parseCSV(text);
-    const grid = document.getElementById("propertyGrid");
+        if (char === '"' && insideQuotes && next === '"') {
+          current += '"';
+          i++;
+        } else if (char === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (char === "," && !insideQuotes) {
+          row.push(current);
+          current = "";
+        } else if (char === "\n" && !insideQuotes) {
+          row.push(current);
+          rows.push(row);
+          row = [];
+          current = "";
+        } else {
+          current += char;
+        }
+      }
 
-    data.slice(1).forEach(cols => {
-      if (!cols[6]) return;
+      if (current.length > 0 || row.length > 0) {
+        row.push(current);
+        rows.push(row);
+      }
 
-      const type = cols[2];
-      const location = cols[3];
-      const area = cols[4];
-      const price = cols[5];
-      const image = cols[6];
-      const phone = cols[7];
+      return rows;
+    }
 
-      const card = document.createElement("div");
-      card.className = "card";
+    // ✅ Image URL logic
+    function buildImageURL(imageValue) {
+      const img = cleanValue(imageValue);
 
-      card.innerHTML = `
-        <img src="${image}" alt="${type}" loading="lazy" />
-        <h3>${type}</h3>
-        <p><strong>Location:</strong> ${location}</p>
-        <p><strong>Area:</strong> ${area} sqft</p>
-        <p><strong>Price:</strong> ${price}</p>
-        <a class="whatsapp"
-           target="_blank"
-           href="https://wa.me/${phone}?text=I am interested in ${type} at ${location}">
-           WhatsApp Enquiry
-        </a>
-      `;
+      // If full URL is already given in sheet (https://...)
+      if (img.startsWith("http://") || img.startsWith("https://")) {
+        return img;
+      }
 
-      grid.appendChild(card);
+      // If sheet contains "image/filename.jpg" convert to "/image/filename.jpg"
+      if (img.startsWith("image/")) {
+        return "/" + img;
+      }
+
+      // If sheet contains only filename "PR1.jpg"
+      return `/${IMAGE_FOLDER}/${img}`;
+    }
+
+    function buildWhatsAppLink(phone, message) {
+      const wa = cleanValue(phone) || DEFAULT_WHATSAPP;
+      return `https://wa.me/${wa}?text=${encodeURIComponent(message)}`;
+    }
+
+    function renderProperties() {
+      const grid = document.getElementById("propertyGrid");
+      grid.innerHTML = "";
+
+      const filtered = allProperties.filter(p => {
+        if (activeFilter === "All") return true;
+        return cleanValue(p.Category).toLowerCase() === activeFilter.toLowerCase();
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<p style="text-align:center; width:100%;">No properties found.</p>`;
+        return;
+      }
+
+      filtered.forEach(p => {
+        const propId = cleanValue(p.ID);
+        const type = cleanValue(p.Type);
+        const location = cleanValue(p.Location);
+        const area = cleanValue(p.Area);
+        const price = cleanValue(p.Price);
+        const imgUrl = buildImageURL(p.Image);
+        const waNo = cleanValue(p.WhatsApp) || DEFAULT_WHATSAPP;
+
+        const waMsg =
+`Hi PropertiesWala, I am interested in Property ID: ${propId}.
+Type: ${type}
+Location: ${location}
+Please share full details, exact location and site visit timing.`;
+
+        const detailsUrl = `property.html?id=${encodeURIComponent(propId)}`;
+
+        const card = document.createElement("div");
+        card.className = "property-card";
+
+        card.innerHTML = `
+          <img 
+            src="${imgUrl}"
+            alt="${type} property in ${location} | PropertiesWala"
+            loading="lazy"
+            onerror="this.onerror=null; this.src='/${IMAGE_FOLDER}/hero-drehero-dreamy-commercial-kolkata.jpg';"
+          />
+
+          <div class="property-info">
+            <h3>${type}</h3>
+            <p><strong>Location:</strong> ${location}</p>
+            <p><strong>Area:</strong> ${area} sqft</p>
+            <p><strong>Price:</strong> ${price}</p>
+
+            <div class="card-actions">
+              <a class="btn btn-outline" href="${detailsUrl}">View Details</a>
+
+              <a class="btn btn-green" target="_blank"
+                 href="${buildWhatsAppLink(waNo, waMsg)}">
+                 WhatsApp Enquiry
+              </a>
+
+              <a class="btn btn-blue" href="tel:+91${waNo}">Call Now</a>
+            </div>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    async function loadCSV() {
+      const grid = document.getElementById("propertyGrid");
+      grid.innerHTML = `<p style="text-align:center; width:100%;">Loading properties...</p>`;
+
+      try {
+        const res = await fetch(CSV_URL);
+        const text = await res.text();
+
+        const rows = parseCSV(text.trim());
+        const headers = rows[0].map(h => cleanValue(h));
+
+        allProperties = rows.slice(1).map(cols => {
+          const obj = {};
+          headers.forEach((h, i) => {
+            obj[h] = cleanValue(cols[i] || "");
+          });
+          return obj;
+        });
+
+        renderProperties();
+      } catch (err) {
+        grid.innerHTML = `<p style="text-align:center; width:100%;">Error loading properties. Please check CSV publish settings.</p>`;
+        console.error(err);
+      }
+    }
+
+    // Filters
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        activeFilter = btn.dataset.filter;
+        renderProperties();
+      });
     });
-  })
-  .catch(err => console.error("CSV Load Error:", err));
-</script>
+
+    // Start
+    loadCSV();
+  </script>
 
 </body>
 </html>
-<!-- Primary SEO -->
-<title>PropertiesWala | Buy & Sell Property in Kolkata</title>
-<meta name="description" content="PropertiesWala offers verified residential and commercial properties in Kolkata. Retail showrooms, apartments, honest advice, and instant WhatsApp enquiry.">
-<meta name="keywords" content="property in kolkata, retail showroom kolkata, apartment sale kolkata, commercial property kolkata">
-<meta name="author" content="PropertiesWala">
-
-<!-- Mobile SEO -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- Indexing -->
-<meta name="robots" content="index, follow">
