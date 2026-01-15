@@ -1,29 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Property Details | PropertiesWala</title>
-  <meta name="description" content="Property details page for verified listings across West Bengal." />
+  <meta name="description" content="View verified property details on PropertiesWala. Commercial and residential listings across Kolkata and West Bengal." />
 
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
   <header class="navbar">
-    <div class="logo">Properties<span>Wala</span></div>
-    <nav>
-      <a href="index.html#home">Home</a>
-      <a href="index.html#properties">Properties</a>
-      <a href="index.html#contact">Contact</a>
-    </nav>
+    <div class="nav-container">
+      <div class="logo">
+        Properties<span>Wala</span>
+      </div>
+
+      <nav class="nav-links">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#lead">Requirement</a>
+        <a href="index.html#properties">Properties</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </div>
   </header>
 
-  <section class="properties" style="padding-top: 30px;">
+  <section class="properties-section">
     <h2>Property Details</h2>
-    <div id="detailsBox" style="max-width: 900px; margin: 20px auto; text-align:left;"></div>
+    <div id="detailsBox" class="details-box"></div>
   </section>
 
   <footer class="footer">
@@ -32,133 +38,126 @@
 
   <script>
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
-    const DEFAULT_WHATSAPP = "919433365152";
-    const IMAGE_FOLDER = "image";
+    const OWNER_WHATSAPP = "919433365152";
+    const WEBSITE_BASE = "https://propertieswala.in";
 
-    function cleanValue(v) {
-      return (v || "").toString().trim();
+    function clean(v) {
+      return (v || "").toString().trim().replace(/^"+|"+$/g, "");
     }
 
-    function parseCSV(csvText) {
+    function csvToRows(csvText) {
+      const lines = csvText.split(/\r?\n/).filter(Boolean);
       const rows = [];
-      let row = [];
-      let current = "";
-      let insideQuotes = false;
 
-      for (let i = 0; i < csvText.length; i++) {
-        const char = csvText[i];
-        const next = csvText[i + 1];
+      for (let line of lines) {
+        const cols = [];
+        let current = "";
+        let insideQuotes = false;
 
-        if (char === '"' && insideQuotes && next === '"') {
-          current += '"';
-          i++;
-        } else if (char === '"') {
-          insideQuotes = !insideQuotes;
-        } else if (char === "," && !insideQuotes) {
-          row.push(current);
-          current = "";
-        } else if (char === "\n" && !insideQuotes) {
-          row.push(current);
-          rows.push(row);
-          row = [];
-          current = "";
-        } else {
-          current += char;
+        for (let i = 0; i < line.length; i++) {
+          const ch = line[i];
+
+          if (ch === '"' && line[i + 1] === '"') {
+            current += '"';
+            i++;
+          } else if (ch === '"') {
+            insideQuotes = !insideQuotes;
+          } else if (ch === "," && !insideQuotes) {
+            cols.push(current);
+            current = "";
+          } else {
+            current += ch;
+          }
         }
-      }
 
-      if (current.length > 0 || row.length > 0) {
-        row.push(current);
-        rows.push(row);
+        cols.push(current);
+        rows.push(cols.map(c => clean(c)));
       }
 
       return rows;
     }
 
-    function buildImageURL(imageValue) {
-      const img = cleanValue(imageValue);
-
-      if (img.startsWith("http://") || img.startsWith("https://")) return img;
-
-      if (img.startsWith("image/")) return "/" + img;
-
-      return `/${IMAGE_FOLDER}/${img}`;
-    }
-
-    function buildWhatsAppLink(phone, message) {
-      const wa = cleanValue(phone) || DEFAULT_WHATSAPP;
-      return `https://wa.me/${wa}?text=${encodeURIComponent(message)}`;
+    function buildWhatsAppLink(number, message) {
+      const num = clean(number).replace(/\D/g, "") || OWNER_WHATSAPP;
+      return `https://wa.me/${num}?text=${encodeURIComponent(message)}`;
     }
 
     function getQueryParam(name) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(name);
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
     }
 
-    async function loadPropertyDetails() {
-      const propId = getQueryParam("id");
+    async function loadDetails() {
+      const id = getQueryParam("id");
       const box = document.getElementById("detailsBox");
 
-      if (!propId) {
-        box.innerHTML = "<p>No property ID found.</p>";
+      if (!id) {
+        box.innerHTML = "<p>No Property ID found.</p>";
         return;
       }
 
       try {
-        const res = await fetch(CSV_URL);
+        const res = await fetch(CSV_URL, { cache: "no-store" });
         const text = await res.text();
+        const rows = csvToRows(text);
 
-        const rows = parseCSV(text.trim());
-        const headers = rows[0].map(h => cleanValue(h));
-
-        const list = rows.slice(1).map(cols => {
+        const headers = rows[0];
+        const data = rows.slice(1).map(r => {
           const obj = {};
-          headers.forEach((h, i) => {
-            obj[h] = cleanValue(cols[i] || "");
-          });
+          headers.forEach((h, i) => obj[h] = r[i] || "");
           return obj;
         });
 
-        const p = list.find(x => cleanValue(x.ID) === cleanValue(propId));
+        const p = data.find(x => clean(x.ID) === clean(id));
 
         if (!p) {
           box.innerHTML = "<p>Property not found.</p>";
           return;
         }
 
-        const imgUrl = buildImageURL(p.Image);
+        const type = clean(p.Type);
+        const location = clean(p.Location);
+        const area = clean(p.Area);
+        const price = clean(p.Price);
+        const img = clean(p.Image);
+
+        document.title = `${type} in ${location} | PropertiesWala`;
+
         const waMsg =
-`Hi PropertiesWala, I am interested in Property ID: ${p.ID}.
-Type: ${p.Type}
-Location: ${p.Location}
-Please share full details and arrange a visit.`;
+          `Hello PropertiesWala, I am interested in this property:\n\n` +
+          `ID: ${p.ID}\nType: ${type}\nLocation: ${location}\nArea: ${area} sqft\nPrice: ${price}\n\n` +
+          `Link: ${WEBSITE_BASE}/property.html?id=${encodeURIComponent(p.ID)}\n\n` +
+          `Please share more details and visit schedule.`;
+
+        const waLink = buildWhatsAppLink(p.WhatsApp || OWNER_WHATSAPP, waMsg);
 
         box.innerHTML = `
-          <div class="property-card" style="overflow:hidden;">
-            <img src="${imgUrl}" alt="${p.Type} in ${p.Location}" style="height:320px;" />
-            <div class="property-info">
-              <h3>${p.Type}</h3>
-              <p><strong>Property ID:</strong> ${p.ID}</p>
-              <p><strong>Category:</strong> ${p.Category}</p>
-              <p><strong>Location:</strong> ${p.Location}</p>
-              <p><strong>Area:</strong> ${p.Area} sqft</p>
-              <p><strong>Price:</strong> ${p.Price}</p>
+          <div class="property-card">
+            <div class="property-image">
+              <img src="${img}" alt="${type} in ${location}" loading="lazy" />
+            </div>
 
-              <div class="card-actions" style="max-width:380px;">
-                <a class="btn btn-green" target="_blank" href="${buildWhatsAppLink(p.WhatsApp, waMsg)}">WhatsApp Enquiry</a>
-                <a class="btn btn-blue" href="tel:+91${cleanValue(p.WhatsApp) || DEFAULT_WHATSAPP}">Call Now</a>
-                <a class="btn btn-outline" href="index.html#properties">Back to Properties</a>
+            <div class="property-body">
+              <h3>${type}</h3>
+              <p><strong>Property ID:</strong> ${p.ID}</p>
+              <p><strong>Location:</strong> ${location}</p>
+              <p><strong>Area:</strong> ${area} sqft</p>
+              <p><strong>Price:</strong> ${price}</p>
+
+              <div class="btn-row">
+                <a class="btn-primary" target="_blank" href="${waLink}">WhatsApp Enquiry</a>
+                <a class="btn-outline" href="index.html#properties">Back to Listings</a>
               </div>
             </div>
           </div>
         `;
       } catch (err) {
-        box.innerHTML = "<p>Error loading property details.</p>";
-        console.error(err);
+        box.innerHTML = "<p>Error loading details.</p>";
+        console.log(err);
       }
     }
 
-    loadPropertyDetails();
+    loadDetails();
   </script>
 
 </body>
