@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 
   <title>PropertiesWala | Trusted Property Solutions Across West Bengal</title>
-  <meta name="description" content="Verified commercial and residential properties across West Bengal. Call or WhatsApp for enquiry and property visits." />
+  <meta name="description" content="Verified Residential & Commercial Properties across West Bengal. Get honest advice, best deals and direct WhatsApp enquiry support." />
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -14,25 +14,32 @@
 
   <!-- ================= NAVBAR ================= -->
   <header class="navbar">
-    <div class="logo">Properties<span>Wala</span></div>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#properties">Properties</a>
-      <a href="#contact">Contact</a>
-    </nav>
+    <div class="nav-container">
+      <div class="logo">
+        Properties<span>Wala</span>
+      </div>
+
+      <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#properties">Properties</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
   </header>
+
 
   <!-- ================= HERO ================= -->
   <section id="home" class="hero">
     <div class="hero-overlay"></div>
 
     <div class="hero-content">
-      <!-- ✅ H1 For SEO -->
       <h1>Trusted Property Solutions Across West Bengal</h1>
 
-      <p>Residential & Commercial Properties • Honest Advice • Verified Listings</p>
+      <p class="hero-subtitle">
+        Residential & Commercial Properties • Honest Advice • Verified Listings
+      </p>
 
-      <div class="hero-actions">
+      <div class="hero-search">
         <input type="text" placeholder="Search by location or property type (Coming Soon)" disabled />
       </div>
 
@@ -44,225 +51,175 @@
     </div>
   </section>
 
+
   <!-- ================= PROPERTIES ================= -->
-  <section id="properties" class="properties">
+  <section id="properties" class="properties-section">
     <h2>Latest Available Properties</h2>
-    <div id="propertyGrid" class="property-grid"></div>
-  </section>
 
-  <!-- ================= CONTACT ================= -->
-  <section id="contact" class="contact">
-    <h2>Contact Us</h2>
-    <p>Speak directly with a property expert for verified listings and honest advice.</p>
-
-    <div class="contact-box">
-      <p><strong>Call Now:</strong></p>
-      <a class="contact-call" href="tel:+919433365152">+91 9433365152</a>
-
-      <p style="margin-top:12px;"><strong>WhatsApp:</strong></p>
-      <a class="contact-wa" target="_blank"
-         href="https://wa.me/919433365152?text=Hi%20PropertiesWala%2C%20I%20want%20property%20details%20and%20site%20visit.">
-         Chat on WhatsApp
-      </a>
+    <div id="propertyGrid" class="property-grid">
+      <!-- JS will render properties here -->
     </div>
   </section>
 
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact" class="contact-section">
+    <h2>Contact Us</h2>
+
+    <p>Speak directly with a property expert for verified listings and honest advice.</p>
+
+    <div class="contact-box">
+      <div class="contact-row">
+        <strong>Call Now:</strong>
+        <a class="contact-link" href="tel:+919433365152">+91 9433365152</a>
+      </div>
+
+      <div class="contact-row">
+        <strong>WhatsApp:</strong>
+        <a class="contact-link" target="_blank"
+           href="https://wa.me/919433365152?text=Hello%20PropertiesWala%2C%20I%20need%20property%20details%20please.">
+          Chat on WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+
   <!-- ================= FOOTER ================= -->
   <footer class="footer">
-    <p>© 2026 PropertiesWala. All rights reserved.</p>
+    <p>© 2025 PropertiesWala. All rights reserved.</p>
   </footer>
 
-  <!-- ================= FLOATING BUTTONS ================= -->
-  <a class="float-whatsapp"
-     target="_blank"
-     href="https://wa.me/919433365152?text=Hi%20PropertiesWala%2C%20I%20am%20interested%20in%20your%20property%20listings.">
-     WhatsApp
-  </a>
 
-  <a class="float-call" href="tel:+919433365152">Call</a>
-
-
-  <!-- ================= JAVASCRIPT ================= -->
+  <!-- ================= JS (Google Sheet CSV) ================= -->
   <script>
-    // ✅ Your CSV (Confirmed)
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
 
-    // ✅ Your WhatsApp Number
-    const DEFAULT_WHATSAPP = "919433365152";
-
-    // ✅ Your GitHub images folder name (As per your repo screenshot)
-    const IMAGE_FOLDER = "image";
+    const propertyGrid = document.getElementById("propertyGrid");
+    const filterButtons = document.querySelectorAll(".filter-btn");
 
     let allProperties = [];
-    let activeFilter = "All";
+    let currentFilter = "All";
 
-    function cleanValue(v) {
+    function normalizeValue(v) {
       return (v || "").toString().trim();
     }
 
-    // ✅ CSV Safe parsing (handles commas inside quotes)
-    function parseCSV(csvText) {
-      const rows = [];
-      let row = [];
-      let current = "";
-      let insideQuotes = false;
-
-      for (let i = 0; i < csvText.length; i++) {
-        const char = csvText[i];
-        const next = csvText[i + 1];
-
-        if (char === '"' && insideQuotes && next === '"') {
-          current += '"';
-          i++;
-        } else if (char === '"') {
-          insideQuotes = !insideQuotes;
-        } else if (char === "," && !insideQuotes) {
-          row.push(current);
-          current = "";
-        } else if (char === "\n" && !insideQuotes) {
-          row.push(current);
-          rows.push(row);
-          row = [];
-          current = "";
-        } else {
-          current += char;
-        }
-      }
-
-      if (current.length > 0 || row.length > 0) {
-        row.push(current);
-        rows.push(row);
-      }
-
-      return rows;
+    function safeText(v) {
+      return normalizeValue(v).replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
-    // ✅ Image URL logic
-    function buildImageURL(imageValue) {
-      const img = cleanValue(imageValue);
-
-      // If full URL is already given in sheet (https://...)
-      if (img.startsWith("http://") || img.startsWith("https://")) {
-        return img;
-      }
-
-      // If sheet contains "image/filename.jpg" convert to "/image/filename.jpg"
-      if (img.startsWith("image/")) {
-        return "/" + img;
-      }
-
-      // If sheet contains only filename "PR1.jpg"
-      return `/${IMAGE_FOLDER}/${img}`;
+    function getWhatsAppLink(phone, message) {
+      const cleanPhone = normalizeValue(phone).replace(/\D/g, "");
+      const text = encodeURIComponent(message);
+      return `https://wa.me/${cleanPhone}?text=${text}`;
     }
 
-    function buildWhatsAppLink(phone, message) {
-      const wa = cleanValue(phone) || DEFAULT_WHATSAPP;
-      return `https://wa.me/${wa}?text=${encodeURIComponent(message)}`;
-    }
+    function buildCard(item) {
+      const type = safeText(item.Type);
+      const location = safeText(item.Location);
+      const area = safeText(item.Area);
+      const price = safeText(item.Price);
 
-    function renderProperties() {
-      const grid = document.getElementById("propertyGrid");
-      grid.innerHTML = "";
+      // IMPORTANT:
+      // Your Google Sheet Image column contains FULL URL like:
+      // https://propertieswala.in/image/PR1-Naktala-Kolkata.jpg
+      const imageUrl = normalizeValue(item.Image);
 
-      const filtered = allProperties.filter(p => {
-        if (activeFilter === "All") return true;
-        return cleanValue(p.Category).toLowerCase() === activeFilter.toLowerCase();
-      });
+      const whatsappPhone = normalizeValue(item.WhatsApp) || "919433365152";
 
-      if (filtered.length === 0) {
-        grid.innerHTML = `<p style="text-align:center; width:100%;">No properties found.</p>`;
-        return;
-      }
+      const message =
+        `Hello PropertiesWala, I am interested in this property:\n\n` +
+        `Type: ${type}\n` +
+        `Location: ${location}\n` +
+        `Area: ${area} sqft\n` +
+        `Price: ${price}\n\n` +
+        `Please share more details.`;
 
-      filtered.forEach(p => {
-        const propId = cleanValue(p.ID);
-        const type = cleanValue(p.Type);
-        const location = cleanValue(p.Location);
-        const area = cleanValue(p.Area);
-        const price = cleanValue(p.Price);
-        const imgUrl = buildImageURL(p.Image);
-        const waNo = cleanValue(p.WhatsApp) || DEFAULT_WHATSAPP;
+      const waLink = getWhatsAppLink(whatsappPhone, message);
 
-        const waMsg =
-`Hi PropertiesWala, I am interested in Property ID: ${propId}.
-Type: ${type}
-Location: ${location}
-Please share full details, exact location and site visit timing.`;
+      // If image URL is empty, show a fallback block
+      const imgTag = imageUrl
+        ? `<img src="${imageUrl}" alt="${type} in ${location}" loading="lazy" />`
+        : `<div class="img-fallback">No Image</div>`;
 
-        const detailsUrl = `property.html?id=${encodeURIComponent(propId)}`;
+      return `
+        <div class="property-card">
+          <div class="property-img">
+            ${imgTag}
+          </div>
 
-        const card = document.createElement("div");
-        card.className = "property-card";
-
-        card.innerHTML = `
-          <img 
-            src="${imgUrl}"
-            alt="${type} property in ${location} | PropertiesWala"
-            loading="lazy"
-            onerror="this.onerror=null; this.src='/${IMAGE_FOLDER}/hero-drehero-dreamy-commercial-kolkata.jpg';"
-          />
-
-          <div class="property-info">
+          <div class="property-body">
             <h3>${type}</h3>
+
             <p><strong>Location:</strong> ${location}</p>
             <p><strong>Area:</strong> ${area} sqft</p>
             <p><strong>Price:</strong> ${price}</p>
 
-            <div class="card-actions">
-              <a class="btn btn-outline" href="${detailsUrl}">View Details</a>
-
-              <a class="btn btn-green" target="_blank"
-                 href="${buildWhatsAppLink(waNo, waMsg)}">
-                 WhatsApp Enquiry
-              </a>
-
-              <a class="btn btn-blue" href="tel:+91${waNo}">Call Now</a>
-            </div>
+            <a class="whatsapp-btn" target="_blank" href="${waLink}">
+              WhatsApp Enquiry
+            </a>
           </div>
-        `;
+        </div>
+      `;
+    }
 
-        grid.appendChild(card);
+    function renderProperties() {
+      propertyGrid.innerHTML = "";
+
+      const filtered = allProperties.filter(p => {
+        const cat = normalizeValue(p.Category);
+        if (currentFilter === "All") return true;
+        return cat.toLowerCase() === currentFilter.toLowerCase();
       });
+
+      if (filtered.length === 0) {
+        propertyGrid.innerHTML = `<p class="no-data">No properties found.</p>`;
+        return;
+      }
+
+      propertyGrid.innerHTML = filtered.map(buildCard).join("");
     }
 
     async function loadCSV() {
-      const grid = document.getElementById("propertyGrid");
-      grid.innerHTML = `<p style="text-align:center; width:100%;">Loading properties...</p>`;
-
       try {
         const res = await fetch(CSV_URL);
-        const text = await res.text();
+        const csvText = await res.text();
 
-        const rows = parseCSV(text.trim());
-        const headers = rows[0].map(h => cleanValue(h));
+        const rows = csvText.trim().split("\n").map(r => r.split(","));
 
-        allProperties = rows.slice(1).map(cols => {
+        // Headers
+        const headers = rows[0].map(h => h.trim());
+
+        // Data rows
+        const dataRows = rows.slice(1);
+
+        allProperties = dataRows.map(row => {
           const obj = {};
           headers.forEach((h, i) => {
-            obj[h] = cleanValue(cols[i] || "");
+            obj[h] = row[i] ? row[i].trim() : "";
           });
           return obj;
         });
 
         renderProperties();
+
       } catch (err) {
-        grid.innerHTML = `<p style="text-align:center; width:100%;">Error loading properties. Please check CSV publish settings.</p>`;
-        console.error(err);
+        console.error("CSV Load Error:", err);
+        propertyGrid.innerHTML = `<p class="no-data">Error loading properties. Please check the CSV link.</p>`;
       }
     }
 
-    // Filters
-    document.querySelectorAll(".filter-btn").forEach(btn => {
+    // Filter Buttons
+    filterButtons.forEach(btn => {
       btn.addEventListener("click", () => {
-        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        filterButtons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-
-        activeFilter = btn.dataset.filter;
+        currentFilter = btn.getAttribute("data-filter");
         renderProperties();
       });
     });
 
-    // Start
     loadCSV();
   </script>
 
