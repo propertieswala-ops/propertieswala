@@ -139,11 +139,11 @@
     // SETTINGS (EDIT ONLY ONCE)
     // ============================
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
-    const OWNER_WHATSAPP = "919433365152"; // your WhatsApp (owner)
+    const OWNER_WHATSAPP = "919433365152";
     const WEBSITE_BASE = "https://propertieswala.in";
 
-    // ✅ Google Sheet Lead Save Web App URL (You will paste your Apps Script URL here)
-    const APPS_SCRIPT_WEBAPP_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL_HERE";
+    // ✅ UPDATED: Your Real Apps Script Web App URL (Mini CRM)
+    const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbw0-YOhLZyIH4XAm9QJ0RqjF4RxkTsAvYRTT-BPOVK3tpqSmEnLrMBnsVOf5p_rs5WjAQ/exec";
 
     let ALL_PROPERTIES = [];
     let ACTIVE_FILTER = "All";
@@ -216,7 +216,7 @@
 
     function copyToClipboard(text) {
       if (!navigator.clipboard) {
-        alert("Copy not supported on this browser. Please copy manually: " + text);
+        alert("Copy not supported. Please copy manually: " + text);
         return;
       }
       navigator.clipboard.writeText(text)
@@ -248,16 +248,12 @@
         const location = clean(p.Location);
         const area = clean(p.Area);
         const price = clean(p.Price);
-
-        // Image is full URL in sheet (recommended)
         const imgUrl = clean(p.Image);
 
-        // SEO alt text
         const altText = `${type || "Property"} in ${location || "Kolkata"} | PropertiesWala`;
 
         const detailsUrl = makePropertyDetailsURL(id);
 
-        // WhatsApp Enquiry (Owner)
         const enquiryMsg =
           `Hello PropertiesWala, I am interested in this property:\n\n` +
           `ID: ${id}\n` +
@@ -271,7 +267,6 @@
 
         const waEnquiryLink = buildWhatsAppLink(p.WhatsApp || OWNER_WHATSAPP, enquiryMsg);
 
-        // Share to ANYONE (viral sharing)
         const shareMsg =
           `✅ Verified Property - PropertiesWala\n\n` +
           `Type: ${type}\n` +
@@ -332,7 +327,7 @@
         grid.appendChild(card);
       });
 
-      // Attach copy handlers
+      // Copy button handler
       document.querySelectorAll(".btn-copy").forEach(btn => {
         btn.addEventListener("click", () => {
           const link = btn.getAttribute("data-copy");
@@ -342,9 +337,7 @@
     }
 
     function applyFilter() {
-      const loadingText = document.getElementById("loadingText");
       const errorText = document.getElementById("errorText");
-
       errorText.textContent = "";
 
       if (ACTIVE_FILTER === "All") {
@@ -354,11 +347,6 @@
 
       const filtered = ALL_PROPERTIES.filter(p => normalizeCategory(p.Category) === ACTIVE_FILTER);
       renderProperties(filtered);
-
-      if (filtered.length === 0) {
-        loadingText.style.display = "block";
-        loadingText.textContent = "No properties found in this category.";
-      }
     }
 
     async function loadCSV() {
@@ -386,7 +374,6 @@
         });
 
         ALL_PROPERTIES = data.filter(p => p.ID && p.Type);
-
         loadingText.style.display = "none";
         applyFilter();
 
@@ -435,23 +422,21 @@
         source: "Website"
       };
 
-      // 1) Save to Google Sheet (Apps Script)
+      // ✅ Save to Google Sheet (Apps Script)
       let sheetSaved = false;
-      if (APPS_SCRIPT_WEBAPP_URL && !APPS_SCRIPT_WEBAPP_URL.includes("PASTE_YOUR")) {
-        try {
-          await fetch(APPS_SCRIPT_WEBAPP_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          });
-          sheetSaved = true;
-        } catch (err) {
-          console.log("Apps Script save error:", err);
-        }
+      try {
+        await fetch(APPS_SCRIPT_WEBAPP_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        sheetSaved = true;
+      } catch (err) {
+        console.log("Apps Script save error:", err);
       }
 
-      // 2) Open WhatsApp to Owner (Instant notification)
+      // ✅ Send WhatsApp notification to owner
       const ownerText =
         `✅ New Lead from PropertiesWala.in\n\n` +
         `Name: ${name}\n` +
@@ -474,7 +459,7 @@
       window.open(waOwnerLink, "_blank");
     });
 
-    // Start loading
+    // Start
     loadCSV();
   </script>
 
