@@ -6,559 +6,246 @@
 
   <title>PropertiesWala | Verified Property Listings in Kolkata & West Bengal</title>
 
+  <!-- ✅ FAVICON (root file) -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+
+  <!-- ✅ SEO BASIC -->
   <meta name="description" content="PropertiesWala provides verified commercial and residential properties across Kolkata & West Bengal. Direct WhatsApp support and site visit assistance." />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://propertieswala.in/" />
 
-  <!-- Open Graph (WhatsApp / Facebook Preview) -->
-  <meta property="og:title" content="PropertiesWala | Verified Properties in Kolkata & West Bengal" />
-  <meta property="og:description" content="Verified commercial and residential listings across Kolkata & West Bengal. WhatsApp enquiry + site visit support." />
-  <meta property="og:url" content="https://propertieswala.in/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://propertieswala.in/image/hero-drehero-dreamy-commercial-kolkata.jpg" />
-
-  <!-- Twitter Preview -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="PropertiesWala | Verified Properties" />
-  <meta name="twitter:description" content="Verified listings + WhatsApp enquiry + direct site visit support." />
-  <meta name="twitter:image" content="https://propertieswala.in/image/hero-drehero-dreamy-commercial-kolkata.jpg" />
-
+  <!-- ✅ CSS -->
   <link rel="stylesheet" href="style.css" />
-
-  <!-- ✅ Local Business Schema (Google Ranking Booster) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "RealEstateAgent",
-    "name": "PropertiesWala",
-    "url": "https://propertieswala.in/",
-    "telephone": "+91 9433365152",
-    "areaServed": ["Kolkata", "West Bengal"],
-    "description": "Verified commercial and residential property listings across Kolkata and West Bengal. WhatsApp support and site visit assistance available.",
-    "sameAs": [],
-    "serviceType": [
-      "Commercial Property Sale",
-      "Commercial Property Rent",
-      "Residential Property Sale",
-      "Property Consulting"
-    ]
-  }
-  </script>
 </head>
 
 <body>
 
-  <!-- ================= NAVBAR ================= -->
-  <header class="navbar">
-    <div class="nav-container">
-      <div class="logo">Properties<span>Wala</span></div>
-
-      <nav class="nav-links">
-        <a href="#home">Home</a>
-        <a href="#lead">Requirement</a>
-        <a href="#properties">Properties</a>
-        <a href="loan-assistance.html">Loan</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </div>
+  <!-- ✅ NAVBAR -->
+  <header class="navbar" id="home">
+    <div class="logo">Properties<span>Wala</span></div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#properties">Properties</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </header>
 
-  <!-- ================= HERO ================= -->
-  <section id="home" class="hero">
+  <!-- ✅ HERO -->
+  <section class="hero">
     <div class="hero-overlay"></div>
 
     <div class="hero-content">
       <h1>Trusted Property Solutions Across West Bengal</h1>
-      <p>Verified Listings • Honest Advice • Direct Site Visit Support</p>
+      <p>Residential & Commercial Properties • Honest Advice • Verified Listings</p>
 
-      <input class="hero-search" type="text" placeholder="Search (Coming Soon)" disabled />
+      <input
+        type="text"
+        placeholder="Search by location or property type (Coming Soon)"
+        disabled
+      />
 
       <div class="filters">
         <button class="filter-btn active" data-filter="All">All</button>
         <button class="filter-btn" data-filter="Residential">Residential</button>
         <button class="filter-btn" data-filter="Commercial">Commercial</button>
       </div>
-
-      <!-- ✅ Quick Action Bar -->
-      <div class="quick-actions">
-        <a class="qa-btn qa-call" href="tel:+919433365152">Call Now</a>
-        <a class="qa-btn qa-wa" target="_blank"
-           href="https://wa.me/919433365152?text=Hello%20PropertiesWala%2C%20I%20want%20verified%20property%20options%20and%20site%20visit%20support.">
-           WhatsApp
-        </a>
-        <a class="qa-btn qa-form" href="#lead">Submit Requirement</a>
-        <a class="qa-btn qa-loan" href="loan-assistance.html">Loan Assistance</a>
-      </div>
     </div>
   </section>
 
-  <!-- ================= TRUST SECTION ================= -->
-  <section class="trust-section">
-    <div class="trust-wrap">
-      <h2>Why PropertiesWala?</h2>
-      <div class="trust-grid">
-        <div class="trust-card">
-          <h3>Verified Listings</h3>
-          <p>We focus on genuine properties to save your time and reduce risk.</p>
-        </div>
-        <div class="trust-card">
-          <h3>Direct Site Visit Support</h3>
-          <p>We help you schedule visits quickly and share accurate details.</p>
-        </div>
-        <div class="trust-card">
-          <h3>Fast WhatsApp Response</h3>
-          <p>Get photos, location and details instantly through WhatsApp enquiry.</p>
-        </div>
-        <div class="trust-card">
-          <h3>Professional Guidance</h3>
-          <p>Clear information and honest support for buyers and investors.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= LEAD FORM ================= -->
-  <section id="lead" class="lead-section">
-    <div class="lead-box">
-      <div class="lead-left">
-        <h2>Get Call Back in 10 Minutes</h2>
-        <p>Submit your requirement. We will share matching verified options quickly.</p>
-
-        <ul class="trust-points">
-          <li>Commercial & Residential</li>
-          <li>Verified Options</li>
-          <li>Quick Site Visit</li>
-          <li>Fast Support on WhatsApp</li>
-        </ul>
-      </div>
-
-      <form id="leadForm" class="lead-form">
-        <input type="text" id="leadName" placeholder="Your Name" required />
-        <input type="tel" id="leadPhone" placeholder="Your Phone Number" required />
-
-        <select id="leadCategory" required>
-          <option value="">Select Category</option>
-          <option value="Commercial">Commercial</option>
-          <option value="Residential">Residential</option>
-        </select>
-
-        <select id="leadDeal" required>
-          <option value="">Buy / Rent</option>
-          <option value="Buy">Buy</option>
-          <option value="Rent">Rent</option>
-        </select>
-
-        <input type="text" id="leadBudget" placeholder="Budget (Example: 2.5 Cr / 70 Lakh)" required />
-        <input type="text" id="leadArea" placeholder="Preferred Area (Example: Park Street, Kolkata)" required />
-
-        <button type="submit" class="lead-submit">Submit Requirement</button>
-
-        <div id="leadMsg" class="lead-msg"></div>
-      </form>
-    </div>
-  </section>
-
-  <!-- ================= QUICK BROWSE ================= -->
-  <section class="landing-links">
-    <div class="landing-wrap">
-      <h2>Quick Browse</h2>
-      <div class="landing-grid">
-        <a class="landing-card" href="commercial-sale.html">
-          <h3>Commercial Sale</h3>
-          <p>Showrooms • Offices • Shops</p>
-        </a>
-
-        <a class="landing-card" href="commercial-rent.html">
-          <h3>Commercial Rent</h3>
-          <p>Fast closures • Monthly rentals</p>
-        </a>
-
-        <a class="landing-card" href="residential-sale.html">
-          <h3>Residential Sale</h3>
-          <p>Flats • Apartments • Homes</p>
-        </a>
-
-        <a class="landing-card" href="loan-assistance.html">
-          <h3>Loan Assistance</h3>
-          <p>Govt Banks • NBFC • Private Banks</p>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= PROPERTIES ================= -->
-  <section id="properties" class="properties-section">
+  <!-- ✅ PROPERTIES -->
+  <section id="properties" class="properties">
     <h2>Latest Available Properties</h2>
 
+    <div id="loadingMsg" class="loading-msg">Loading properties...</div>
+
     <div id="propertyGrid" class="property-grid"></div>
-
-    <div id="loadingText" class="loading-text">Loading properties...</div>
-    <div id="errorText" class="error-text"></div>
   </section>
 
-  <!-- ================= LOCAL SEO SECTION (Ranking Booster) ================= -->
-  <section class="seo-section">
-    <div class="seo-wrap">
-      <h2>Commercial & Residential Property in Kolkata</h2>
-      <p>
-        PropertiesWala helps buyers and investors find verified properties across Kolkata and West Bengal.
-        We support commercial sale, commercial rent and residential property sale with direct site visit assistance.
-      </p>
-
-      <h3>Locations We Cover</h3>
-      <p>
-        New Town, Rajarhat, Salt Lake, EM Bypass, Ruby, Garia, Naktala, Tollygunge, Jadavpur,
-        Park Street, Esplanade, Chandni Chowk, Howrah and nearby areas.
-      </p>
-
-      <h3>Services</h3>
-      <ul class="seo-list">
-        <li>Commercial Property for Sale in Kolkata</li>
-        <li>Commercial Property for Rent in Kolkata</li>
-        <li>Residential Flats for Sale in Kolkata</li>
-        <li>Verified Listings + Site Visit Support</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ================= FAQ (Google Ranking Booster) ================= -->
-  <section class="faq-section">
-    <div class="faq-wrap">
-      <h2>Frequently Asked Questions</h2>
-
-      <div class="faq-item">
-        <h3>Do you provide verified property listings?</h3>
-        <p>Yes. We focus on genuine verified listings to help buyers avoid wrong information and save time.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>How can I enquire about a property?</h3>
-        <p>You can click WhatsApp Enquiry on any listing or submit your requirement form to get quick response.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>Do you support site visits?</h3>
-        <p>Yes. We assist with site visit scheduling and share key details before visit.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>Which locations do you handle?</h3>
-        <p>We mainly cover Kolkata and nearby West Bengal locations depending on availability.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= CONTACT ================= -->
-  <section id="contact" class="contact-section">
+  <!-- ✅ CONTACT -->
+  <section id="contact" class="contact">
     <h2>Contact Us</h2>
     <p>Speak directly with a property expert for verified listings and honest advice.</p>
 
-    <div class="contact-card">
+    <div class="contact-box">
       <div>
-        <strong>Call Now:</strong><br/>
+        <strong>Call Now:</strong>
         <a class="contact-link" href="tel:+919433365152">+91 9433365152</a>
       </div>
 
       <div>
-        <strong>WhatsApp:</strong><br/>
+        <strong>WhatsApp:</strong>
         <a class="contact-link" target="_blank"
-          href="https://wa.me/919433365152?text=Hello%20PropertiesWala%2C%20I%20want%20verified%20property%20options%20in%20Kolkata.">
+          href="https://wa.me/919433365152?text=Hello%20PropertiesWala%2C%20I%20want%20property%20details.">
           Chat on WhatsApp
         </a>
       </div>
     </div>
   </section>
 
-  <!-- ================= FOOTER ================= -->
+  <!-- ✅ FOOTER -->
   <footer class="footer">
     <p>© 2026 PropertiesWala. All rights reserved.</p>
   </footer>
 
-  <!-- ================= FLOATING BUTTONS ================= -->
-  <a class="floating-btn floating-call" href="tel:+919433365152" title="Call Now">Call</a>
-
-  <a class="floating-btn floating-wa"
-    target="_blank"
-    href="https://wa.me/919433365152?text=Hello%20PropertiesWala%2C%20I%20want%20property%20details%20and%20site%20visit%20support."
-    title="WhatsApp Now">
-    WhatsApp
-  </a>
-
-  <!-- ================= JAVASCRIPT ================= -->
+  <!-- ✅ JAVASCRIPT -->
   <script>
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
-    const OWNER_WHATSAPP = "919433365152";
-    const WEBSITE_BASE = "https://propertieswala.in";
-    const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbw0-YOhLZyIH4XAm9QJ0RqjF4RxkTsAvYRTT-BPOVK3tpqSmEnLrMBnsVOf5p_rs5WjAQ/exec";
+    // ✅ Your Google Sheet CSV Link
+    const CSV_URL =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgoZIBoAGvAYPO4Nz2se3QJ8aWENUUfYtLW7l25i3B0EkVzYzhgrtupPOIbPXuJ8N_wKf_E9ckipxv/pub?output=csv";
 
-    let ALL_PROPERTIES = [];
-    let ACTIVE_FILTER = "All";
+    const propertyGrid = document.getElementById("propertyGrid");
+    const loadingMsg = document.getElementById("loadingMsg");
 
-    function escapeHTML(str) {
-      if (!str) return "";
-      return String(str)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
+    let allProperties = [];
+    let activeFilter = "All";
 
-    function clean(v) {
-      return (v || "").toString().trim().replace(/^"+|"+$/g, "");
-    }
-
-    function normalizeCategory(cat) {
-      const c = clean(cat).toLowerCase();
-      if (c.includes("res")) return "Residential";
-      if (c.includes("com")) return "Commercial";
-      return clean(cat);
-    }
-
-    function buildWhatsAppLink(number, message) {
-      const num = clean(number).replace(/\D/g, "") || OWNER_WHATSAPP;
-      return `https://wa.me/${num}?text=${encodeURIComponent(message)}`;
-    }
-
-    function csvToRows(csvText) {
-      const lines = csvText.split(/\r?\n/).filter(Boolean);
+    // ✅ CSV Parser (supports commas in quotes)
+    function parseCSV(text) {
       const rows = [];
+      let row = [];
+      let current = "";
+      let insideQuotes = false;
 
-      for (let line of lines) {
-        const cols = [];
-        let current = "";
-        let insideQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const nextChar = text[i + 1];
 
-        for (let i = 0; i < line.length; i++) {
-          const ch = line[i];
-
-          if (ch === '"' && line[i + 1] === '"') {
-            current += '"';
-            i++;
-          } else if (ch === '"') {
-            insideQuotes = !insideQuotes;
-          } else if (ch === "," && !insideQuotes) {
-            cols.push(current);
-            current = "";
-          } else {
-            current += ch;
+        if (char === '"' && insideQuotes && nextChar === '"') {
+          current += '"';
+          i++;
+        } else if (char === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (char === "," && !insideQuotes) {
+          row.push(current.trim());
+          current = "";
+        } else if ((char === "\n" || char === "\r") && !insideQuotes) {
+          if (current.length > 0 || row.length > 0) {
+            row.push(current.trim());
+            rows.push(row);
           }
+          row = [];
+          current = "";
+        } else {
+          current += char;
         }
+      }
 
-        cols.push(current);
-        rows.push(cols.map(c => clean(c)));
+      if (current.length > 0 || row.length > 0) {
+        row.push(current.trim());
+        rows.push(row);
       }
 
       return rows;
     }
 
-    function makePropertyDetailsURL(id) {
-      return `${WEBSITE_BASE}/property.html?id=${encodeURIComponent(id)}`;
-    }
-
-    function copyToClipboard(text) {
-      if (!navigator.clipboard) {
-        alert("Copy not supported. Please copy manually: " + text);
-        return;
-      }
-      navigator.clipboard.writeText(text)
-        .then(() => alert("✅ Link Copied!"))
-        .catch(() => alert("❌ Copy failed. Please try again."));
+    function safeText(t) {
+      if (!t) return "";
+      return String(t).replace(/"/g, "").trim();
     }
 
     function renderProperties(list) {
-      const grid = document.getElementById("propertyGrid");
-      const loadingText = document.getElementById("loadingText");
+      propertyGrid.innerHTML = "";
 
-      grid.innerHTML = "";
-
-      if (!list || list.length === 0) {
-        loadingText.textContent = "No properties found.";
-        loadingText.style.display = "block";
+      if (!list.length) {
+        propertyGrid.innerHTML = `<p style="text-align:center; font-weight:600;">No properties found.</p>`;
         return;
       }
 
-      loadingText.style.display = "none";
-
       list.forEach((p) => {
-        const id = clean(p.ID);
-        const category = normalizeCategory(p.Category);
-        const type = clean(p.Type);
-        const location = clean(p.Location);
-        const area = clean(p.Area);
-        const price = clean(p.Price);
-        const imgUrl = clean(p.Image);
+        const id = safeText(p.ID);
+        const category = safeText(p.Category);
+        const type = safeText(p.Type);
+        const location = safeText(p.Location);
+        const area = safeText(p.Area);
+        const price = safeText(p.Price);
+        const img = safeText(p.Image);
+        const whatsapp = safeText(p.WhatsApp);
 
-        const altText = `${type || "Property"} in ${location || "Kolkata"} | PropertiesWala`;
-        const detailsUrl = makePropertyDetailsURL(id);
+        const waNumber = whatsapp ? whatsapp.replace(/\D/g, "") : "919433365152";
 
-        const enquiryMsg =
-          `Hello PropertiesWala, I am interested in this property:\n\n` +
-          `ID: ${id}\nCategory: ${category}\nType: ${type}\nLocation: ${location}\nArea: ${area} sqft\nPrice: ${price}\n\n` +
-          `Link: ${detailsUrl}\n\n` +
-          `Please share more photos & arrange a site visit.`;
+        // ✅ Image URL: if sheet has FULL URL, use it directly
+        // else if sheet has like: image/PR1.jpg then it will work also
+        const imageUrl = img.startsWith("http") ? img : img;
 
-        const waEnquiryLink = buildWhatsAppLink(p.WhatsApp || OWNER_WHATSAPP, enquiryMsg);
-
-        const shareMsg =
-          `✅ Verified Property - PropertiesWala\n\n` +
-          `Type: ${type}\nLocation: ${location}\nArea: ${area} sqft\nPrice: ${price}\n\n` +
-          `👉 Full details: ${detailsUrl}\n\n` +
-          `📞 Call: +91 9433365152`;
-
-        const waShareLink = buildWhatsAppLink("", shareMsg);
+        const msg = encodeURIComponent(
+          `Hello PropertiesWala, I'm interested in this property:\nID: ${id}\nType: ${type}\nLocation: ${location}\nPrice: ${price}`
+        );
 
         const card = document.createElement("div");
         card.className = "property-card";
 
         card.innerHTML = `
           <div class="property-image">
-            <img
-              src="${escapeHTML(imgUrl)}"
-              alt="${escapeHTML(altText)}"
-              loading="lazy"
-              onerror="this.style.display='none'; this.parentElement.classList.add('no-image');"
-            />
-            <div class="property-badge">${escapeHTML(category || "Property")}</div>
+            <img src="${imageUrl}" alt="${type} in ${location}" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');" />
           </div>
 
           <div class="property-body">
-            <h3>${escapeHTML(type)}</h3>
-            <p><strong>Location:</strong> ${escapeHTML(location)}</p>
-            <p><strong>Area:</strong> ${escapeHTML(area)} sqft</p>
-            <p><strong>Price:</strong> ${escapeHTML(price)}</p>
+            <h3>${type || "Property"}</h3>
+            <p><strong>Location:</strong> ${location || "-"}</p>
+            <p><strong>Area:</strong> ${area ? area + " sqft" : "-"}</p>
+            <p><strong>Price:</strong> ${price || "-"}</p>
 
-            <div class="btn-row">
-              <a class="btn-primary" target="_blank" href="${waEnquiryLink}">WhatsApp Enquiry</a>
-              <a class="btn-outline" href="property.html?id=${encodeURIComponent(id)}">View Details</a>
-            </div>
-
-            <div class="btn-row">
-              <a class="btn-dark" target="_blank" href="${waShareLink}">Share</a>
-              <button class="btn-copy" type="button" data-copy="${escapeHTML(detailsUrl)}">Copy Link</button>
-            </div>
-
-            <div class="mini-actions">
-              <a class="mini-call" href="tel:+919433365152">Call Now</a>
-            </div>
+            <a class="whatsapp-btn" target="_blank"
+              href="https://wa.me/${waNumber}?text=${msg}">
+              WhatsApp Enquiry
+            </a>
           </div>
         `;
 
-        grid.appendChild(card);
-      });
-
-      document.querySelectorAll(".btn-copy").forEach(btn => {
-        btn.addEventListener("click", () => {
-          copyToClipboard(btn.getAttribute("data-copy"));
-        });
+        propertyGrid.appendChild(card);
       });
     }
 
     function applyFilter() {
-      if (ACTIVE_FILTER === "All") {
-        renderProperties(ALL_PROPERTIES);
+      if (activeFilter === "All") {
+        renderProperties(allProperties);
         return;
       }
-      const filtered = ALL_PROPERTIES.filter(p => normalizeCategory(p.Category) === ACTIVE_FILTER);
+      const filtered = allProperties.filter(
+        (p) => safeText(p.Category).toLowerCase() === activeFilter.toLowerCase()
+      );
       renderProperties(filtered);
     }
 
-    async function loadCSV() {
-      const loadingText = document.getElementById("loadingText");
-      const errorText = document.getElementById("errorText");
-
-      loadingText.style.display = "block";
-      loadingText.textContent = "Loading properties...";
-      errorText.textContent = "";
-
+    async function loadProperties() {
       try {
+        loadingMsg.style.display = "block";
+
         const res = await fetch(CSV_URL, { cache: "no-store" });
-        if (!res.ok) throw new Error("CSV not loading. Check publish settings.");
+        const csvText = await res.text();
 
-        const text = await res.text();
-        const rows = csvToRows(text);
+        const rows = parseCSV(csvText);
+        const headers = rows[0];
 
-        const headers = rows[0].map(h => clean(h));
+        const dataRows = rows.slice(1).filter((r) => r.length > 2);
 
-        const data = rows.slice(1).map(row => {
+        allProperties = dataRows.map((r) => {
           const obj = {};
-          headers.forEach((h, i) => obj[h] = row[i] ? clean(row[i]) : "");
-          obj.Category = normalizeCategory(obj.Category);
+          headers.forEach((h, i) => {
+            obj[safeText(h)] = safeText(r[i] || "");
+          });
           return obj;
         });
 
-        ALL_PROPERTIES = data.filter(p => p.ID && p.Type);
-
-        loadingText.style.display = "none";
+        loadingMsg.style.display = "none";
         applyFilter();
 
       } catch (err) {
-        console.error(err);
-        loadingText.style.display = "none";
-        errorText.textContent = "❌ Error loading properties. Please check Google Sheet publish settings.";
+        console.error("CSV load error:", err);
+        loadingMsg.innerHTML = "Failed to load properties. Please try again.";
       }
     }
 
-    document.querySelectorAll(".filter-btn").forEach(btn => {
+    // ✅ Filter button logic
+    document.querySelectorAll(".filter-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
-        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
-        ACTIVE_FILTER = btn.dataset.filter;
+        activeFilter = btn.dataset.filter;
         applyFilter();
       });
     });
 
-    document.getElementById("leadForm").addEventListener("submit", async function(e) {
-      e.preventDefault();
-
-      const leadMsg = document.getElementById("leadMsg");
-      leadMsg.textContent = "Submitting...";
-      leadMsg.style.color = "#1f3b5d";
-
-      const name = clean(document.getElementById("leadName").value);
-      const phone = clean(document.getElementById("leadPhone").value);
-      const category = clean(document.getElementById("leadCategory").value);
-      const deal = clean(document.getElementById("leadDeal").value);
-      const budget = clean(document.getElementById("leadBudget").value);
-      const area = clean(document.getElementById("leadArea").value);
-
-      const payload = {
-        date: new Date().toISOString(),
-        name,
-        phone,
-        category,
-        deal,
-        budget,
-        area,
-        source: "Website"
-      };
-
-      try {
-        await fetch(APPS_SCRIPT_WEBAPP_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-      } catch (err) {
-        console.log("Apps Script save error:", err);
-      }
-
-      const ownerText =
-        `✅ New Lead from PropertiesWala.in\n\n` +
-        `Name: ${name}\nPhone: ${phone}\nCategory: ${category}\nBuy/Rent: ${deal}\nBudget: ${budget}\nPreferred Area: ${area}\n\n` +
-        `Please send matching verified properties.`;
-
-      const waOwnerLink = buildWhatsAppLink(OWNER_WHATSAPP, ownerText);
-
-      leadMsg.textContent = "✅ Lead submitted. Opening WhatsApp...";
-      leadMsg.style.color = "green";
-
-      document.getElementById("leadForm").reset();
-      window.open(waOwnerLink, "_blank");
-    });
-
-    loadCSV();
+    loadProperties();
   </script>
 
 </body>
