@@ -10,7 +10,7 @@
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://propertieswala.in/" />
 
-  <!-- Open Graph (Facebook / WhatsApp Preview) -->
+  <!-- Open Graph (WhatsApp / Facebook Preview) -->
   <meta property="og:title" content="PropertiesWala | Verified Properties in Kolkata & West Bengal" />
   <meta property="og:description" content="Verified commercial and residential listings across Kolkata & West Bengal. WhatsApp enquiry + site visit support." />
   <meta property="og:url" content="https://propertieswala.in/" />
@@ -24,6 +24,26 @@
   <meta name="twitter:image" content="https://propertieswala.in/image/hero-drehero-dreamy-commercial-kolkata.jpg" />
 
   <link rel="stylesheet" href="style.css" />
+
+  <!-- ✅ Local Business Schema (Google Ranking Booster) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "name": "PropertiesWala",
+    "url": "https://propertieswala.in/",
+    "telephone": "+91 9433365152",
+    "areaServed": ["Kolkata", "West Bengal"],
+    "description": "Verified commercial and residential property listings across Kolkata and West Bengal. WhatsApp support and site visit assistance available.",
+    "sameAs": [],
+    "serviceType": [
+      "Commercial Property Sale",
+      "Commercial Property Rent",
+      "Residential Property Sale",
+      "Property Consulting"
+    ]
+  }
+  </script>
 </head>
 
 <body>
@@ -138,7 +158,7 @@
     </div>
   </section>
 
-  <!-- ================= LANDING PAGES LINKS ================= -->
+  <!-- ================= QUICK BROWSE ================= -->
   <section class="landing-links">
     <div class="landing-wrap">
       <h2>Quick Browse</h2>
@@ -174,6 +194,58 @@
 
     <div id="loadingText" class="loading-text">Loading properties...</div>
     <div id="errorText" class="error-text"></div>
+  </section>
+
+  <!-- ================= LOCAL SEO SECTION (Ranking Booster) ================= -->
+  <section class="seo-section">
+    <div class="seo-wrap">
+      <h2>Commercial & Residential Property in Kolkata</h2>
+      <p>
+        PropertiesWala helps buyers and investors find verified properties across Kolkata and West Bengal.
+        We support commercial sale, commercial rent and residential property sale with direct site visit assistance.
+      </p>
+
+      <h3>Locations We Cover</h3>
+      <p>
+        New Town, Rajarhat, Salt Lake, EM Bypass, Ruby, Garia, Naktala, Tollygunge, Jadavpur,
+        Park Street, Esplanade, Chandni Chowk, Howrah and nearby areas.
+      </p>
+
+      <h3>Services</h3>
+      <ul class="seo-list">
+        <li>Commercial Property for Sale in Kolkata</li>
+        <li>Commercial Property for Rent in Kolkata</li>
+        <li>Residential Flats for Sale in Kolkata</li>
+        <li>Verified Listings + Site Visit Support</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= FAQ (Google Ranking Booster) ================= -->
+  <section class="faq-section">
+    <div class="faq-wrap">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <h3>Do you provide verified property listings?</h3>
+        <p>Yes. We focus on genuine verified listings to help buyers avoid wrong information and save time.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How can I enquire about a property?</h3>
+        <p>You can click WhatsApp Enquiry on any listing or submit your requirement form to get quick response.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Do you support site visits?</h3>
+        <p>Yes. We assist with site visit scheduling and share key details before visit.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Which locations do you handle?</h3>
+        <p>We mainly cover Kolkata and nearby West Bengal locations depending on availability.</p>
+      </div>
+    </div>
   </section>
 
   <!-- ================= CONTACT ================= -->
@@ -322,12 +394,7 @@
 
         const enquiryMsg =
           `Hello PropertiesWala, I am interested in this property:\n\n` +
-          `ID: ${id}\n` +
-          `Category: ${category}\n` +
-          `Type: ${type}\n` +
-          `Location: ${location}\n` +
-          `Area: ${area} sqft\n` +
-          `Price: ${price}\n\n` +
+          `ID: ${id}\nCategory: ${category}\nType: ${type}\nLocation: ${location}\nArea: ${area} sqft\nPrice: ${price}\n\n` +
           `Link: ${detailsUrl}\n\n` +
           `Please share more photos & arrange a site visit.`;
 
@@ -335,10 +402,7 @@
 
         const shareMsg =
           `✅ Verified Property - PropertiesWala\n\n` +
-          `Type: ${type}\n` +
-          `Location: ${location}\n` +
-          `Area: ${area} sqft\n` +
-          `Price: ${price}\n\n` +
+          `Type: ${type}\nLocation: ${location}\nArea: ${area} sqft\nPrice: ${price}\n\n` +
           `👉 Full details: ${detailsUrl}\n\n` +
           `📞 Call: +91 9433365152`;
 
@@ -444,7 +508,6 @@
       });
     });
 
-    // ✅ Lead Form Save to Google Sheet + WhatsApp notify
     document.getElementById("leadForm").addEventListener("submit", async function(e) {
       e.preventDefault();
 
@@ -470,7 +533,6 @@
         source: "Website"
       };
 
-      let sheetSaved = false;
       try {
         await fetch(APPS_SCRIPT_WEBAPP_URL, {
           method: "POST",
@@ -478,26 +540,18 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
-        sheetSaved = true;
       } catch (err) {
         console.log("Apps Script save error:", err);
       }
 
       const ownerText =
         `✅ New Lead from PropertiesWala.in\n\n` +
-        `Name: ${name}\n` +
-        `Phone: ${phone}\n` +
-        `Category: ${category}\n` +
-        `Buy/Rent: ${deal}\n` +
-        `Budget: ${budget}\n` +
-        `Preferred Area: ${area}\n\n` +
+        `Name: ${name}\nPhone: ${phone}\nCategory: ${category}\nBuy/Rent: ${deal}\nBudget: ${budget}\nPreferred Area: ${area}\n\n` +
         `Please send matching verified properties.`;
 
       const waOwnerLink = buildWhatsAppLink(OWNER_WHATSAPP, ownerText);
 
-      leadMsg.textContent = sheetSaved
-        ? "✅ Lead submitted & saved. Opening WhatsApp..."
-        : "✅ Lead submitted. Opening WhatsApp...";
+      leadMsg.textContent = "✅ Lead submitted. Opening WhatsApp...";
       leadMsg.style.color = "green";
 
       document.getElementById("leadForm").reset();
